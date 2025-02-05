@@ -55,7 +55,7 @@ const ProductCard = ({ showProducts }: { showProducts?: number }) => {
   ? Array.from({ length: 4 }).map((_, index) => (
       <div
         key={index}
-        className="relative flex flex-col w-[250px] sm:w-auto h-[300px] lg:h-[330px] bg-gray-100 rounded-sm shadow-md overflow-hidden sm:mx-10 md:mx-2 lg:mx-0 animate-pulse"
+        className="relative flex flex-col w-[250px] sm:w-auto h-[300px] bg-gray-100 rounded-sm shadow-md overflow-hidden sm:mx-10 md:mx-2 lg:mx-0 animate-pulse"
       >
         <div className="relative w-full h-0 pb-[75%] bg-gray-300"></div>
         <div className="flex flex-col gap-2 p-4">
