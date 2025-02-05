@@ -16,7 +16,7 @@ const Page = () => {
   return (
     <section className="max-w-[1440px] mx-auto">
       <SecondaryHeader routeName="Shop" />
-      <ShopFilter />
+      <ShopFilter showProducts={showProducts} />
       <ProductCard showProducts={showProducts} />
       <ShopButtons setShowProducts={setShowProducts} showProducts={showProducts} />
       <ServiceBar />
