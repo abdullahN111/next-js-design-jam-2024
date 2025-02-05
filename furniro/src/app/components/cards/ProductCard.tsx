@@ -52,21 +52,23 @@ const ProductCard = ({ showProducts }: { showProducts?: number }) => {
   return (
     <div className="flex flex-col justify-center items-center sm:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 sm:gap-8 my-6 mx-4 lg:mx-6">
       {isLoading
-  ? Array.from({ length: 4 }).map((_, index) => (
-      <div
-        key={index}
-        className="relative flex flex-col w-[250px] sm:w-auto h-[300px] bg-gray-100 rounded-sm shadow-md overflow-hidden sm:mx-10 md:mx-2 lg:mx-0 animate-pulse"
-      >
-        <div className="relative w-full h-0 pb-[75%] bg-gray-300"></div>
-        <div className="flex flex-col gap-2 p-4">
-        <div className="h-6 bg-gray-300 rounded w-3/4 mb-2">
-            <span className="text-gray-600 text-xs">Loading product...</span>
-          </div>
-          <div className="h-4 bg-gray-300 rounded w-1/2"></div>
-          <div className="h-4 bg-gray-300 rounded w-1/3"></div>
-        </div>
-      </div>
-    ))
+        ? Array.from({ length: 4 }).map((_, index) => (
+            <div
+              key={index}
+              className="relative flex flex-col w-[250px] sm:w-auto h-[300px] lg:h-[330px] xl:h-[360px] bg-gray-100 rounded-sm shadow-md overflow-hidden sm:mx-10 md:mx-2 lg:mx-0 animate-pulse"
+            >
+              <div className="relative w-full h-0 pb-[75%] bg-gray-300"></div>
+              <div className="flex flex-col gap-2 p-4">
+                <div className="h-6 bg-gray-300 rounded w-3/4 mb-2">
+                  <span className="text-gray-600 text-xs">
+                    Loading product...
+                  </span>
+                </div>
+                <div className="h-4 bg-gray-300 rounded w-1/2"></div>
+                <div className="h-4 bg-gray-300 rounded w-1/3"></div>
+              </div>
+            </div>
+          ))
         : products.slice(0, showProducts).map((card) => (
             <div
               key={card._id}
