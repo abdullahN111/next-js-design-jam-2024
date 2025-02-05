@@ -33,7 +33,7 @@ const PaymentDetails = () => {
             </div>
             <div>
               <p className="text-[15px] lg:text-base">
-                Rs. {Number(item.price) * item.quantity}
+                $ {Number(item.price) * item.quantity}.00
               </p>
             </div>
           </div>
@@ -41,12 +41,12 @@ const PaymentDetails = () => {
 
         <div className="flex items-center justify-between">
           <p className="text-[15px] lg:text-base">Subtotal</p>
-          <p className="text-[15px] lg:text-base">Rs. {cartTotal}</p>
+          <p className="text-[15px] lg:text-base">$ {cartTotal}.00</p>
         </div>
         <div className="flex items-center justify-between">
           <p className="text-[15px] lg:text-base">Total</p>
           <h4 className="text-lg sm:text-[22px] lg:text-2xl text-[#B88E2F] font-bold">
-            Rs. {cartTotal}
+            $ {cartTotal}.00
           </h4>
         </div>
       </div>

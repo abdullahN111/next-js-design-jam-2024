@@ -55,7 +55,7 @@ const Cart = () => {
                         </div>
                       </td>
                       <td className="p-4 text-[#9F9F9F] text-base text-start whitespace-nowrap">
-                        Rs. {item.price}
+                        $ {item.price}
                       </td>
                       <td className="p-4 text-center">
                         <div className="flex items-center space-x-2">
@@ -89,7 +89,7 @@ const Cart = () => {
                       </td>
                       <td className="p-4 text-black text-base font-medium text-start whitespace-nowrap">
                         <div className="flex items-center justify-start gap-8">
-                          <span>Rs. {subtotal}</span>
+                          <span>$ {subtotal}</span>
                           <button
                             onClick={() => removeFromCart(item.id)}
                             className="text-[#9F9F9F] cursor-pointer"
@@ -112,12 +112,12 @@ const Cart = () => {
           </h2>
           <div className="flex justify-between mb-5">
             <span className="text-base font-semibold">Subtotal</span>
-            <span className="text-base text-[#9F9F9F]">Rs. {cartTotal}</span>
+            <span className="text-base text-[#9F9F9F]">$ {cartTotal}.00</span>
           </div>
           <div className="flex justify-between font-medium mb-5">
             <span className="text-base font-semibold">Total</span>
             <span className="text-xl text-[#B88E2F] font-semibold">
-              Rs. {cartTotal}
+              $ {cartTotal}.00
             </span>
           </div>
 

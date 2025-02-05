@@ -100,7 +100,7 @@ const Header = () => {
       {/* menu bar */}
       {openMenu && (
         <div
-          className="absolute top-[100px] left-0 w-full py-6 bg-[#FFFFFF] shadow-md z-[1000]"
+          className="absolute top-[90px] left-0 w-full py-6 bg-[#FFFFFF] shadow-md z-[1000]"
           onClick={closeMenu}
         >
           <SmNavbar closeMenu={closeMenu} />

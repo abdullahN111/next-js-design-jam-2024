@@ -61,7 +61,7 @@ const CartItems = ({ closeCart }: { closeCart: () => void }) => {
                     <span className="text-[15px]">{item.quantity}</span>
                     <span className="text-base">&times;</span>
                     <span className="text-xs text-[#B88E2F] font-semibold">
-                      Rs. {item.price}
+                      $ {item.price}.00
                     </span>
                   </p>
                 </div>
@@ -85,7 +85,7 @@ const CartItems = ({ closeCart }: { closeCart: () => void }) => {
             <div className="flex mb-4 gap-4 sm:gap-0 items-center justify-between">
               <p className="text-[15px]">Subtotal</p>
               <p className="mr-8 sm:mr-16 text-[15px] text-[#B88E2F] font-semibold">
-                Rs. {itemsTotal}
+                $ {itemsTotal}.00
               </p>
             </div>
             <div className="border border-[#D9D9D9] w-full"></div>
@@ -98,12 +98,18 @@ const CartItems = ({ closeCart }: { closeCart: () => void }) => {
                       cartItems[0].name.toLowerCase()
                     )}`}
                   >
-                    <button className="cursor-pointer text-xs hover:bg-[#F9F1E7] py-1 px-5 rounded-full border border-black">
+                    <button
+                      onClick={closeCart}
+                      className="cursor-pointer text-xs hover:bg-[#F9F1E7] py-1 px-5 rounded-full border border-black"
+                    >
                       Cart
                     </button>
                   </Link>
                   <Link href="/checkout">
-                    <button className="cursor-pointer text-xs hover:bg-[#F9F1E7] py-1 px-6 rounded-full border border-black">
+                    <button
+                      onClick={closeCart}
+                      className="cursor-pointer text-xs hover:bg-[#F9F1E7] py-1 px-6 rounded-full border border-black"
+                    >
                       Checkout
                     </button>
                   </Link>

@@ -9,7 +9,7 @@ const OurProducts = () => {
   const [showProducts, setShowProducts] = useState(8);
 
   const handleShowMore = () => {
-    if (showProducts < 24) {
+    if (showProducts < 16) {
       setShowProducts((prevProd) => prevProd + 8);
     }
   };
@@ -19,7 +19,7 @@ const OurProducts = () => {
         Our Products
       </h2>
       <ProductCard showProducts={showProducts} />
-      {showProducts < 24 ? (
+      {showProducts < 16 ? (
         <button
           onClick={handleShowMore}
           className="border mx-auto rounded-sm border-[#B88E2F] text-[#B88E2F] text-base font-semibold py-2 px-10 mt-8 sm:mt-4 md:mt-2 hover:text-white hover:bg-[#B88E2F] transition duration-300 py"
