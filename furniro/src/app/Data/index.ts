@@ -26,7 +26,7 @@ interface FetchedProduct {
   _id: string;
   title: string;
   description: string;
-  productImage: { asset: { url: string } };
+  productImage: StaticImageData;
   price: string;
   tags: string[];
   featured: string;
@@ -57,12 +57,12 @@ export async function fetchProducts(): Promise<ProductCardData[]> {
     // console.log("Fetched Product:", product);
     return {
       _id: product._id,
-      image: product.productImage, 
+      image: product.productImage,
       sideImages: [
-        product.productImage, 
-        product.productImage, 
-        product.productImage, 
-        product.productImage, 
+        product.productImage,
+        product.productImage,
+        product.productImage,
+        product.productImage,
       ],
       dicountPercentage: product.dicountPercentage
         ? { text: `-${product.dicountPercentage}%`, color: "#E97171" }
@@ -82,10 +82,7 @@ export async function fetchProducts(): Promise<ProductCardData[]> {
       featured: product.featured,
       isNew: product.isNew,
       inventoryInStock: product.inventoryInStock,
-      slug: product.slug
+      slug: product.slug,
     };
   });
 }
-
-
-
