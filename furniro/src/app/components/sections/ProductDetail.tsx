@@ -48,8 +48,8 @@ const ProductDetail = () => {
 
   return (
     <div className="w-full mx-auto py-10 mb-12 px-6 sm:px-10 lg:px-24 font-poppins flex flex-col lg:flex-row gap-10 lg:gap-6">
-      <div className="basis-[40%] flex flex-col lg:flex-row gap-6">
-        <div className="flex flex-row lg:flex-col gap-3 sm:gap-4">
+      <div className="basis-full lg:basis-[40%] flex flex-col lg:flex-row gap-6">
+        <div className="flex flex-row lg:flex-col gap-3 sm:gap-4 overflow-x-auto lg:overflow-visible">
           {product.sideImages?.map((img, idx) => (
             <Image
               key={idx}
@@ -57,12 +57,12 @@ const ProductDetail = () => {
               alt={`Product side image ${idx + 1}`}
               width={80}
               height={80}
-              className="bg-[#F9F1E7] rounded-md w-20 h-20 object-cover hover:scale-105 transition-transform"
+              className="bg-[#F9F1E7] rounded-md w-16 sm:w-20 h-16 sm:h-20 object-cover hover:scale-105 transition-transform"
             />
           ))}
         </div>
         <div className="flex-1">
-          <div className="bg-[#F9F1E7] rounded-md aspect-square lg:aspect-[3/4] lg:h-[300px]">
+          <div className="bg-[#F9F1E7] rounded-md aspect-square lg:aspect-[3/4] w-full h-auto lg:h-[300px]">
             <Image
               src={product.image}
               alt={`${product.title} main image`}
@@ -74,51 +74,34 @@ const ProductDetail = () => {
         </div>
       </div>
 
-      <div className="basis-[60%]">
+      <div className="basis-full lg:basis-[60%]">
         <div className="flex flex-col gap-[6px] items-start">
-          <h1 className="text-[40px]">{product.title}</h1>
-          <p className="text-[#9F9F9F] text-2xl">$ {product.price}.00</p>
+          <h1 className="text-[30px] sm:text-[40px]">{product.title}</h1>
+          <p className="text-[#9F9F9F] text-xl sm:text-2xl">$ {product.price}.00</p>
           <div className="flex items-center gap-5 my-1">
             <p className="text-[#FFC700] text-lg">{product.stars.join(" ")}</p>
             <div className="h-[30px] w-px bg-[#9F9F9F]"></div>
             <p className="text-[13px] text-[#9F9F9F]">{product.reviews}</p>
           </div>
-          <p className="text-[15px]">{product.description}</p>
+          <p className="text-[14px] sm:text-[15px]">{product.description}</p>
           <div className="flex flex-col gap-3 mt-2">
             <p className="text-[#9F9F9F] text-sm">Tags</p>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
               {product.tags.split(", ").map((tag, index) => (
                 <div
                   key={index}
-                  className="text-center content-center w-[100px] h-[33px] text-[13px] text-black bg-[#F9F1E7] rounded-md"
+                  className="text-center content-center px-3 py-1 text-[13px] text-black bg-[#F9F1E7] rounded-md"
                 >
                   {tag}
                 </div>
               ))}
             </div>
           </div>
-          <div>
-            <div className="flex flex-col gap-3 mt-2">
-              <p className="text-[#9F9F9F] text-sm">Color</p>
-              <div className="flex gap-2">
-                <div className="w-[28px] h-[28px] bg-[#816DFA] rounded-full"></div>
-                <div className="w-[28px] h-[28px] bg-[#000000] rounded-full"></div>
-                <div className="w-[28px] h-[28px] bg-[#B88E2F] rounded-full"></div>
-              </div>
-            </div>
-          </div>
           <div className="flex sm:flex-row flex-col gap-4 sm:gap-2 mt-6 items-start sm:items-center text-base">
-            <div className=" hover:bg-[#F9F1E7] flex gap-6 mr-4 border border-[#9F9F9F] rounded-md py-2 px-3">
-              <span
-                className="text-[#] cursor-pointer"
-                onClick={handleDecrement}
-              >
-                -
-              </span>
+            <div className="hover:bg-[#F9F1E7] flex gap-6 border border-[#9F9F9F] rounded-md py-2 px-3">
+              <span className="cursor-pointer" onClick={handleDecrement}>-</span>
               <button>{quantity}</button>
-              <span className="cursor-pointer" onClick={handleIncrement}>
-                +
-              </span>
+              <span className="cursor-pointer" onClick={handleIncrement}>+</span>
             </div>
             <div className="cursor-pointer hover:bg-[#F9F1E7] py-2 px-5 rounded-lg border border-black">
               <button
