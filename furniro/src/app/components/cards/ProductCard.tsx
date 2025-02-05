@@ -70,7 +70,7 @@ const ProductCard = ({ showProducts }: { showProducts?: number }) => {
         : products.slice(0, showProducts).map((card) => (
             <div
               key={card._id}
-              className="relative flex flex-col w-[270px] sm:w-auto h-[300px] bg-[#F4F5F7] rounded-sm shadow-md overflow-hidden sm:mx-10 md:mx-2 lg:mx-0 transition-transform duration-300"
+              className="relative flex flex-col w-[270px] sm:w-auto h-[350px] lg:h-[300px] bg-[#F4F5F7] rounded-sm shadow-md overflow-hidden sm:mx-10 md:mx-2 lg:mx-0 transition-transform duration-300"
             >
               <div className="relative w-full h-0 pb-[75%] group cursor-pointer">
                 <Image
