@@ -56,13 +56,13 @@ Check for secure handling of API keys and authentication data.
 
 Maintain a clear folder structure:
 
-DOCUMENTS/  - Planning and testing docs
-furniro/    - Source code
-  ├── src/
-  │   ├── sanity/       - Sanity schema and client files
-  │   ├── app/          - Layout, main pages, and routes
-  │   ├── components/   - Reusable components
-README.md   - Project summary and setup instructions
+DOCUMENTS/ - Planning and testing docs
+furniro/ - Source code
+├── src/
+│ ├── sanity/ - Sanity schema and client files
+│ ├── app/ - Layout, main pages, and routes
+│ ├── components/ - Reusable components
+README.md - Project summary and setup instructions
 
 Document all test cases in a CSV file with details on expected vs. actual results.
 Submit performance reports from Lighthouse or GTmetrix.
@@ -136,18 +136,19 @@ Use fallback UI elements for missing or delayed data.
 Example Code:
 
 try {
-  const fetchedProducts = await fetchProducts();
-  setProducts(fetchedProducts);
-  setError(null);
+const fetchedProducts = await fetchProducts();
+setProducts(fetchedProducts);
+setError(null);
 } catch (err) {
-  setError(err instanceof Error ? err.message : "Failed to load products");
+setError(err instanceof Error ? err.message : "Failed to load products");
 } finally {
-  setIsLoading(false);
+setIsLoading(false);
 }
 
 Loading UI Placeholder:
 
-isLoading ? Array.from({ length: 4 }).map((_, index) => (
+isLoading ? Array.from({ length: 4 }).map((\_, index) => (
+
   <div key={index} className="relative flex flex-col w-[250px] h-[300px] bg-gray-100 rounded-sm shadow-md animate-pulse">
     <div className="relative w-full h-0 pb-[75%] bg-gray-300"></div>
     <div className="flex flex-col gap-2 p-4">

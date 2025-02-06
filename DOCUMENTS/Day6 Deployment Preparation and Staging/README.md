@@ -55,4 +55,3 @@ Submit performance reports from **Lighthouse** or **GTmetrix**.
 
 ## Conclusion
 The application is now production-ready with all optimizations and security measures in place. The final step is ensuring the repository is structured correctly and submitting required documents.
-
