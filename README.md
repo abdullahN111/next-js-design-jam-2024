@@ -48,6 +48,7 @@ export default {
     { name: 'images', type: 'array', of: [{ type: 'image' }] }
   ]
 }
+
 Day 4: Frontend Components
 Product Grid
 
@@ -93,8 +94,6 @@ Preview deployments
 
 Environment Variables
 
-env
-Copy
 NEXT_PUBLIC_SANITY_ID=your_project_id
 STRIPE_API_KEY=sk_test_...
 Monitoring Setup
@@ -103,15 +102,8 @@ Logging (Sentry.io)
 
 Analytics (Google Tag Manager)
 
-Getting Started
-Clone repository
-
-
-git clone https://github.com/yourusername/furniro.git
-
 
 Project Structure
-Copy
 furniro/
 ├── src/
 │   ├── app/          # Next.js routes
