@@ -35,7 +35,7 @@ const ShopFilter = ({ showProducts }: { showProducts: number }) => {
           <label className="text-base lg:text-lg">Show</label>
           <input
             type="number"
-            placeholder="16"
+            placeholder={currentShowProducts.toString()}
             className="text-base lg:text-lg text-[#9F9F9F] focus:outline-none w-[60px] px-2 lg:px-3 h-[44px]"
           />
         </div>

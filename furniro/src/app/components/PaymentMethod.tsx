@@ -46,7 +46,7 @@ const PaymentMethod = ({ selectedOption }: PaymentMethodProps) => {
   const router = useRouter();
 
   const submitHandler = async (data: FormData) => {
-    const orderId = uuidv4();
+    const orderId = uuidv4().slice(0, 8);
     const orderDetails = {
       orderId,
       user: { ...data },
@@ -64,7 +64,7 @@ const PaymentMethod = ({ selectedOption }: PaymentMethodProps) => {
     console.log("Submitting order with details:", orderDetails);
 
     try {
-      // Sending the order data to your API
+
       const response = await fetch("/api/order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -74,7 +74,7 @@ const PaymentMethod = ({ selectedOption }: PaymentMethodProps) => {
       const result = await response.json();
 
       if (response.ok) {
-        router.push(`/order-tracking?orderId=${orderId}`);
+        router.push(`/track-order/${orderDetails.orderId}`);
       } else {
         console.error("Order submission failed:", result.message);
       }

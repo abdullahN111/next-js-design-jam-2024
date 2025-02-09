@@ -21,13 +21,13 @@ const client = createClient({
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { user, items, total, paymentMethod } = body;
+    const { orderId, user, items, total, paymentMethod } = body;
 
-    const orderId = crypto.randomUUID().slice(0, 8);
+    // const orderId = crypto.randomUUID().slice(0, 8);
 
     const formattedItems: OrderItem[] = items.map((item: OrderItem) => ({
       ...item,
-      _key: uuidv4(), // Generate a unique key for each item
+      _key: uuidv4(),
     }));
 
     const orderDoc = {

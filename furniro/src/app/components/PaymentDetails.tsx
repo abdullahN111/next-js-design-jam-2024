@@ -30,7 +30,7 @@ const PaymentDetails = ({
           <h5 className="text-[21px] lg:text-[22px] font-semibold">Product</h5>
           <h5 className="text-[21px] lg:text-[22px] font-semibold">Subtotal</h5>
         </div>
-        {/* Cart Items */}
+       
         {cartItems.map((item) => (
           <div key={item.id} className="flex items-center justify-between">
             <div className="flex items-center gap-[4px] sm:gap-[6px] lg:gap-2">
@@ -104,8 +104,8 @@ const PaymentDetails = ({
           </p>
         </div>
         <button
-          type="submit" // Change to submit type
-          form="checkout-form"// Call this method instead
+          type="submit" 
+          form="checkout-form"
           className="block mx-auto w-[215px] sm:w-[230px] rounded-xl border border-black text-black px-2 py-3 text-xl hover:bg-[#fae9d3a6] transition my-5"
         >
           Place Order
