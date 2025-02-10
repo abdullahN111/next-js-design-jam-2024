@@ -51,8 +51,11 @@ const PaymentMethod = ({ selectedOption }: PaymentMethodProps) => {
       orderId,
       user: { ...data },
       items: cartItems.map((item) => ({
-        _type: "reference",
-        _ref: item.id, 
+        productId: item.id,
+        name: item.name,
+        price: Number(item.price),
+        quantity: item.quantity,
+
       })),
       total: cartItems.reduce(
         (acc, item) => acc + parseFloat(String(item.price)) * item.quantity,
@@ -64,7 +67,6 @@ const PaymentMethod = ({ selectedOption }: PaymentMethodProps) => {
     console.log("Submitting order with details:", orderDetails);
 
     try {
-
       const response = await fetch("/api/order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

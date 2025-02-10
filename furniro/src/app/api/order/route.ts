@@ -3,7 +3,6 @@ import { createClient } from "next-sanity";
 import { v4 as uuidv4 } from "uuid";
 
 interface OrderItem {
-  _key?: string;
   productId: string;
   name: string;
   price: number;
@@ -23,18 +22,24 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { orderId, user, items, total, paymentMethod } = body;
 
-    // const orderId = crypto.randomUUID().slice(0, 8);
-
-    const formattedItems: OrderItem[] = items.map((item: OrderItem) => ({
-      ...item,
+    const productRefs = items.map((item: OrderItem) => ({
       _key: uuidv4(),
+      _type: "reference",
+      _ref: item.productId,
     }));
+
+    const itemPrices = items.map((item: OrderItem) => item.price);
+    const itemQuantities = items.map((item: OrderItem) => item.quantity);
+    const itemNames = items.map((item: OrderItem) => item.name);
 
     const orderDoc = {
       _type: "order",
       orderId,
       user,
-      items: formattedItems,
+      items: productRefs, 
+      itemNames,
+      itemPrices, 
+      itemQuantities, 
       total,
       paymentMethod,
       status: "Pending",
