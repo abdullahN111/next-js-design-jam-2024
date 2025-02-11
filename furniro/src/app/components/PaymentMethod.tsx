@@ -52,7 +52,6 @@ const PaymentMethod = ({ selectedOption }: PaymentMethodProps) => {
       user: { ...data },
       items: cartItems.map((item) => ({
         productId: item.id,
-        name: item.name,
         price: Number(item.price),
         quantity: item.quantity,
 

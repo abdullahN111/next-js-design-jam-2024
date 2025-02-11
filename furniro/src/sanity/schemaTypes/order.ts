@@ -44,12 +44,7 @@ export const order = defineType({
       type: "array",
       of: [{ type: "number" }],
     },
-    {
-      name: "itemNames",
-      title: "Item Names",
-      type: "array",
-      of: [{ type: "string" }],
-    },
+  
     {
       name: "total",
       title: "Total",

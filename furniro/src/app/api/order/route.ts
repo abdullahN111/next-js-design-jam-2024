@@ -4,7 +4,6 @@ import { v4 as uuidv4 } from "uuid";
 
 interface OrderItem {
   productId: string;
-  name: string;
   price: number;
   quantity: number;
 }
@@ -30,14 +29,14 @@ export async function POST(req: Request) {
 
     const itemPrices = items.map((item: OrderItem) => item.price);
     const itemQuantities = items.map((item: OrderItem) => item.quantity);
-    const itemNames = items.map((item: OrderItem) => item.name);
+
 
     const orderDoc = {
       _type: "order",
       orderId,
       user,
       items: productRefs, 
-      itemNames,
+
       itemPrices, 
       itemQuantities, 
       total,
