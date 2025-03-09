@@ -15,6 +15,7 @@ import { useCart } from "@/app/context/CartContext";
 import CartItems from "@/app/components/CartItems";
 import SmNavbar from "@/app/components/shared/SmNavbar";
 import LgNavbar from "@/app/components/shared/LgNavbar";
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 
 const Header = () => {
   const [openMenu, setOpenMenu] = useState(false);
@@ -35,7 +36,11 @@ const Header = () => {
   };
 
   return (
-    <header className={`bg-[#FFFFFF] mx-auto max-w-[1440px] h-24 px-6 lg:px-[54px] ${cartItems.length > 0 ? "sticky top-0 z-[1000]" : ""}`}>
+    <header
+     className={`bg-[#FFFFFF] mx-auto max-w-[1440px] h-24 px-6 lg:px-[54px] transition-all duration-300 ease-in-out 
+    ${cartItems.length > 0 ? "sticky top-0 z-[1000] shadow-md" : "relative"}
+  `}
+    >
       <div className="flex items-center justify-between h-full">
         <Link href="/">
           <div className="flex items-center gap-2">
@@ -51,10 +56,17 @@ const Header = () => {
 
         <div className="hidden lg:flex text-[26px] gap-8">
           <Link
-            href="/"
+            href="/login"
             className="cursor-pointer hover:shadow-[0_1px_0_rgba(0,0,0,0.2)] transition-shadow"
           >
-            <TbUserExclamation />
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
+            <SignedOut>
+              <SignInButton>
+                <TbUserExclamation />
+              </SignInButton>
+            </SignedOut>
           </Link>
           <Link
             href="/"
@@ -98,61 +110,54 @@ const Header = () => {
       </div>
 
       {/* menu bar */}
-      {openMenu && (
-        <div
-          className="absolute top-[90px] left-0 w-full py-6 bg-[#FFFFFF] shadow-md z-[1000]"
-          onClick={closeMenu}
-        >
-          <SmNavbar closeMenu={closeMenu} />
-          <div className="flex justify-center gap-6 py-4 text-[25px]">
-            <Link
-              href="/"
-              onClick={closeMenu}
-              className="cursor-pointer hover:shadow-[0_1px_0_rgba(0,0,0,0.2)] transition-shadow"
-            >
-              <TbUserExclamation />
-            </Link>
-            <Link
-              href="/"
-              onClick={closeMenu}
-              className="cursor-pointer hover:shadow-[0_1px_0_rgba(0,0,0,0.2)] transition-shadow"
-            >
-              <FiSearch />
-            </Link>
-            <Link
-              href="/"
-              onClick={closeMenu}
-              className="cursor-pointer hover:shadow-[0_1px_0_rgba(0,0,0,0.2)] transition-shadow"
-            >
-              <FaRegHeart />
-            </Link>
-            <button
-              onClick={toggleCart}
-              className="relative cursor-pointer hover:shadow-[0_1px_0_rgba(0,0,0,0.2)] transition-shadow"
-            >
-              <MdOutlineLocalGroceryStore />
-              {cartItems.length > 0 && (
-                <div className="absolute top-[-8px] right-[-8px] bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                  {cartItems.length}
-                </div>
-              )}
-            </button>
-          </div>
-        </div>
-      )}
 
-      {openCart && (
-        <div
-          className="fixed right-0 top-0 inset-0 w-full h-screen bg-black bg-opacity-20 z-[1000] flex justify-end transition-all ease-in-out duration-300"
-          onClick={(e) => {
-            if (e.target === e.currentTarget) {
-              setOpenCart(false);
-            }
-          }}
-        >
-          <CartItems closeCart={() => setOpenCart(false)} />
+      <div
+        className={`fixed left-0 top-24 inset-0 w-full h-[50%] bg-white shadow-md z-[1000] transition-all ease-in-out duration-300 ${openMenu ? "opacity-100" : "opacity-0 pointer-events-none"}
+        `}
+      >
+        <SmNavbar closeMenu={closeMenu} />
+        <div className="flex justify-center gap-6 py-4 text-[25px]">
+          <Link
+            href="/"
+            onClick={closeMenu}
+            className="cursor-pointer hover:shadow-[0_1px_0_rgba(0,0,0,0.2)] transition-shadow"
+          >
+            <TbUserExclamation />
+          </Link>
+          <Link
+            href="/login"
+            onClick={closeMenu}
+            className="cursor-pointer hover:shadow-[0_1px_0_rgba(0,0,0,0.2)] transition-shadow"
+          >
+            <FiSearch />
+          </Link>
+          <Link
+            href="/"
+            onClick={closeMenu}
+            className="cursor-pointer hover:shadow-[0_1px_0_rgba(0,0,0,0.2)] transition-shadow"
+          >
+            <FaRegHeart />
+          </Link>
+          <button
+            onClick={toggleCart}
+            className="relative cursor-pointer hover:shadow-[0_1px_0_rgba(0,0,0,0.2)] transition-shadow"
+          >
+            <MdOutlineLocalGroceryStore />
+            {cartItems.length > 0 && (
+              <div className="absolute top-[-8px] right-[-8px] bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                {cartItems.length}
+              </div>
+            )}
+          </button>
         </div>
-      )}
+      </div>
+
+      <div
+        className={`fixed right-0 top-0 inset-0 w-full h-screen bg-black bg-opacity-20 z-[1000] flex justify-end 
+        transition-all ease-in-out duration-300 ${openCart ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+      >
+        <CartItems closeCart={() => setOpenCart(false)} />
+      </div>
     </header>
   );
 };

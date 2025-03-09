@@ -107,9 +107,15 @@ const Cart = () => {
         </div>
 
         <div className="bg-[#F9F1E7] py-8 px-11 sm:p-8 rounded-sm shadow-lg w-auto sm:w-1/2 lg:w-full mx-auto">
-          <h2 className="text-3xl font-semibold text-center mb-16">
-            Cart Totals
-          </h2>
+          {cartItems.length > 0 ? (
+            <h2 className="text-3xl font-semibold text-center mb-16">
+              Cart Totals
+            </h2>
+          ) : (
+            <h2 className="text-3xl font-semibold text-center mb-16">
+              No Items Found!
+            </h2>
+          )}
           <div className="flex justify-between mb-5">
             <span className="text-base font-semibold">Subtotal</span>
             <span className="text-base text-[#9F9F9F]">$ {cartTotal}.00</span>
@@ -121,11 +127,19 @@ const Cart = () => {
             </span>
           </div>
 
-          <Link href="/checkout">
-            <button className="block mx-auto w-[200px] rounded-xl border border-black text-black px-2 py-3 text-xl hover:bg-[#fae9d3a6] transition my-10">
-              Check Out
-            </button>
-          </Link>
+          {cartItems.length > 0 ? (
+            <Link href="/checkout">
+              <button className="block mx-auto w-[200px] rounded-xl border border-black text-black px-2 py-3 text-xl hover:bg-[#fae9d3a6] transition my-10">
+                Check Out
+              </button>
+            </Link>
+          ) : (
+            <Link href="/shop">
+              <button className="block mx-auto w-[200px] rounded-xl border border-black text-black px-2 py-3 text-xl hover:bg-[#fae9d3a6] transition my-10">
+                Start Shopping
+              </button>
+            </Link>
+          )}
         </div>
       </div>
     </section>

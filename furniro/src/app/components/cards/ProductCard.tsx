@@ -78,8 +78,8 @@ const ProductCard = ({ showProducts }: { showProducts?: number }) => {
                 <Image
                   src={card.image}
                   alt={card.title}
-                  layout="fill"
-                  objectFit="cover"
+                  fill
+                  // objectFit="cover"
                   sizes="100vw"
                 />
                 {card.dicountPercentage && (

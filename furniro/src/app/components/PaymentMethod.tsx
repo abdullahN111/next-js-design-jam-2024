@@ -42,7 +42,7 @@ const PaymentMethod = ({ selectedOption }: PaymentMethodProps) => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>();
-  const { cartItems } = useCart();
+  const { cartItems, clearCart } = useCart();
   const router = useRouter();
 
   const submitHandler = async (data: FormData) => {
@@ -54,7 +54,6 @@ const PaymentMethod = ({ selectedOption }: PaymentMethodProps) => {
         productId: item.id,
         price: Number(item.price),
         quantity: item.quantity,
-
       })),
       total: cartItems.reduce(
         (acc, item) => acc + parseFloat(String(item.price)) * item.quantity,
@@ -75,7 +74,10 @@ const PaymentMethod = ({ selectedOption }: PaymentMethodProps) => {
       const result = await response.json();
 
       if (response.ok) {
-        router.push(`/track-order/${orderDetails.orderId}`);
+        localStorage.setItem("lastOrderId", orderId);
+        clearCart()
+        router.push("/track-order");
+    
       } else {
         console.error("Order submission failed:", result.message);
       }

@@ -38,7 +38,7 @@ const CollectionSetup = () => {
               layout="responsive"
               width={300}
               height={350}
-              objectFit="cover"
+              // objectFit="cover"
               className="rounded-md shadow-md transform transition duration-300 hover:scale-105"
             />
           </div>

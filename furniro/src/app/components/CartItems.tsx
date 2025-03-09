@@ -49,15 +49,15 @@ const CartItems = ({ closeCart }: { closeCart: () => void }) => {
                 <Image
                   src={item.image}
                   alt={item.name}
-                  width={85}
-                  height={75}
-                  className="rounded-md"
+                  width={80}
+                  height={80}
+                  className="rounded-md object-cover w-[80px] h-[80px]"
                 />
               </div>
-              <div className="mx-0 text-center sm:text-start sm:mr-6">
+              <div className="mx-0 text-center sm:text-start sm:mr-6 w-[150px] sm:w-[100px] sm:break-words line-clamp-2">
                 <p className="text-[15px] font-semibold">{item.name}</p>
                 <div>
-                  <p className="flex items-center gap-2">
+                  <p className="flex items-center justify-center sm:justify-start gap-2">
                     <span className="text-[15px]">{item.quantity}</span>
                     <span className="text-base">&times;</span>
                     <span className="text-xs text-[#B88E2F] font-semibold">
@@ -93,11 +93,7 @@ const CartItems = ({ closeCart }: { closeCart: () => void }) => {
             <div className="flex items-center justify-center gap-3 my-5 mr-8">
               {cartItems.length > 0 && (
                 <>
-                  <Link
-                    href={`/cart/${cartItems[0].id}-${encodeURIComponent(
-                      cartItems[0].name.toLowerCase()
-                    )}`}
-                  >
+                  <Link href="/cart">
                     <button
                       onClick={closeCart}
                       className="cursor-pointer text-xs hover:bg-[#F9F1E7] py-1 px-5 rounded-full border border-black"

@@ -1,22 +1,20 @@
 import Image from "next/image";
-import HeroImage from "@/app/public/assets/images/main/Hero.png"; 
+import HeroImage from "@/app/public/assets/images/main/Hero.png";
 
 const Hero = () => {
   return (
     <section className="relative max-w-[1440px] mx-auto flex items-center justify-end bg-white h-[700px]">
       {/* Image Section */}
       <div className="absolute opacity-80 md:opacity-100 inset-0 w-full h-full">
-
         <Image
           src={HeroImage}
           alt="Decorative Room"
-          layout="fill"
+          fill
           objectFit="cover"
           priority
         />
       </div>
 
- 
       <div className="relative md:right-8 z-10 md:w-1/2 w-full bg-[#FFF4E3] p-8 md:p-12 rounded-md shadow-md font-poppins">
         <p className="text-sm lg:text-base uppercase font-semibold text-[#333333] mb-[10px]">
           New Arrival

@@ -35,7 +35,7 @@ const About = () => {
             <Image
               src={OurMission}
               alt="Our Mission"
-              layout="fill"
+              fill
               objectFit="cover"
               className="rounded-lg shadow-lg"
             />
@@ -64,7 +64,7 @@ const About = () => {
             <Image
               src={OurTeam}
               alt="Our Team"
-              layout="fill"
+              fill
               objectFit="cover"
               className="rounded-lg shadow-lg"
             />

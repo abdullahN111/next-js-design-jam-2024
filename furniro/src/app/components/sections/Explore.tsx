@@ -73,7 +73,7 @@ const Explore = () => {
           </div>
         </div>
 
-        {/* Dots for Slider */}
+
         <div className="flex gap-2 justify-center mt-4">
           {images.map((_, index) => (
             <span

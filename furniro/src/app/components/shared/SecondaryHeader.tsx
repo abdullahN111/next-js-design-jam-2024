@@ -3,16 +3,16 @@ import ShopMainImage from "@/app/public/assets/images/main/ShopMainImage.png";
 import { IoIosArrowForward } from "react-icons/io";
 
 interface SecondaryHeaderProps {
-    routeName: string;
+  routeName: string;
 }
 
-const SecondaryHeader = ({routeName}: SecondaryHeaderProps) => {
+const SecondaryHeader = ({ routeName }: SecondaryHeaderProps) => {
   return (
     <div className="relative w-full h-[316px]">
       <Image
         src={ShopMainImage}
         alt="Decorative Room"
-        layout="fill"
+        fill
         objectFit="cover"
         priority
         className="opacity-80 md:opacity-100"
