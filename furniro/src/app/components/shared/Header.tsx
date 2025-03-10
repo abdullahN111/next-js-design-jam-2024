@@ -37,7 +37,7 @@ const Header = () => {
 
   return (
     <header
-     className={`bg-[#FFFFFF] mx-auto max-w-[1440px] h-24 px-6 lg:px-[54px] transition-all duration-300 ease-in-out 
+      className={`bg-[#FFFFFF] mx-auto max-w-[1440px] h-24 px-6 lg:px-[54px] transition-all duration-300 ease-in-out 
     ${cartItems.length > 0 ? "sticky top-0 z-[1000] shadow-md" : "relative"}
   `}
     >
@@ -55,10 +55,7 @@ const Header = () => {
         <LgNavbar />
 
         <div className="hidden lg:flex text-[26px] gap-8">
-          <Link
-            href="/login"
-            className="cursor-pointer hover:shadow-[0_1px_0_rgba(0,0,0,0.2)] transition-shadow"
-          >
+          <button className="cursor-pointer hover:shadow-[0_1px_0_rgba(0,0,0,0.2)] transition-shadow">
             <SignedIn>
               <UserButton />
             </SignedIn>
@@ -67,7 +64,7 @@ const Header = () => {
                 <TbUserExclamation />
               </SignInButton>
             </SignedOut>
-          </Link>
+          </button>
           <Link
             href="/"
             className="cursor-pointer hover:shadow-[0_1px_0_rgba(0,0,0,0.2)] transition-shadow"
@@ -117,15 +114,18 @@ const Header = () => {
       >
         <SmNavbar closeMenu={closeMenu} />
         <div className="flex justify-center gap-6 py-4 text-[25px]">
+          <button className="cursor-pointer hover:shadow-[0_1px_0_rgba(0,0,0,0.2)] transition-shadow">
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
+            <SignedOut>
+              <SignInButton>
+                <TbUserExclamation />
+              </SignInButton>
+            </SignedOut>
+          </button>
           <Link
             href="/"
-            onClick={closeMenu}
-            className="cursor-pointer hover:shadow-[0_1px_0_rgba(0,0,0,0.2)] transition-shadow"
-          >
-            <TbUserExclamation />
-          </Link>
-          <Link
-            href="/login"
             onClick={closeMenu}
             className="cursor-pointer hover:shadow-[0_1px_0_rgba(0,0,0,0.2)] transition-shadow"
           >
