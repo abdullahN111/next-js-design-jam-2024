@@ -19,7 +19,7 @@ const SecondaryHeader = ({ routeName }: SecondaryHeaderProps) => {
       />
 
       <div className="absolute inset-0 flex flex-col justify-center items-center text-center">
-        <h1 className="text-[42px] md:text-[46px] font-poppins">{routeName}</h1>
+        <h1 className="text-[42px] md:text-[46px] ">{routeName}</h1>
         <div className="flex gap-[6px] items-center ">
           <p className="text-base font-normal">Home</p>
           <IoIosArrowForward className="font-normal" />

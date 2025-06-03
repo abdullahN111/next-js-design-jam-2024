@@ -49,7 +49,7 @@ const ProductDetail = () => {
     setQuantity((prevQuantity) => (prevQuantity > 1 ? prevQuantity - 1 : 1));
 
   return (
-    <div className="w-full mx-auto py-10 mb-12 px-8 lg:px-16 font-poppins flex flex-col lg:flex-row gap-10">
+    <div className="w-full mx-auto py-10 mb-12 px-8 lg:px-16 flex flex-col lg:flex-row gap-10">
       <div className="basis-[50%] flex flex-col lg:flex-row gap-6 lg:gap-4">
         <div className="flex lg:flex-col gap-3 sm:gap-5">
           {product.sideImages?.map((img, idx) => (

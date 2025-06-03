@@ -6,7 +6,7 @@ import OurTeam from "@/app/public/assets/images/featured/our-team.png";
 
 const About = () => {
   return (
-    <section className="bg-[#FFFFFF] max-w-[1440px] mx-auto mb-12 font-poppins shadow-md">
+    <section className="bg-[#FFFFFF] max-w-[1440px] mx-auto mb-12 shadow-md">
       <SecondaryHeader routeName="About" />
       <div className="max-w-6xl mx-auto p-8 space-y-16">
         <div className="bg-gradient-to-r from-[#FFE0B2] to-[#FFC1C1] p-10 rounded-lg shadow-lg">

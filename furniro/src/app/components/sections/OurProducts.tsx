@@ -14,7 +14,7 @@ const OurProducts = () => {
     }
   };
   return (
-    <section className="max-w-[1200px] mx-auto font-poppins items-center my-16 flex flex-col justify-center">
+    <section className="max-w-[1200px] mx-auto  items-center my-16 flex flex-col justify-center">
       <h2 className="text-4xl font-bold text-[#3A3A3A] text-center">
         Our Products
       </h2>

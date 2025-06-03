@@ -1,6 +1,6 @@
 const ContactForm = () => {
   return (
-    <form className="font-poppins flex flex-col gap-8">
+    <form className=" flex flex-col gap-8">
       <div className="flex flex-col gap-4">
         <label className="text-base font-semibold">Your Name</label>
         <input

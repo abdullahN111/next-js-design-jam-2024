@@ -15,7 +15,7 @@ const Hero = () => {
         />
       </div>
 
-      <div className="relative md:right-8 z-10 md:w-1/2 w-full bg-[#FFF4E3] p-8 md:p-12 rounded-md shadow-md font-poppins">
+      <div className="relative md:right-8 z-10 md:w-1/2 w-full bg-[#FFF4E3] p-8 md:p-12 rounded-md shadow-md ">
         <p className="text-sm lg:text-base uppercase font-semibold text-[#333333] mb-[10px]">
           New Arrival
         </p>

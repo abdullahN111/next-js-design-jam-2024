@@ -36,7 +36,7 @@ const ProductHeader = () => {
   }
 
   return (
-    <div className="w-full px-8 sm:px-12 md:px-16 lg:px-20 h-24 bg-[#F9F1E7] font-poppins flex items-center gap-3 md:gap-4">
+    <div className="w-full px-8 sm:px-12 md:px-16 lg:px-20 h-24 bg-[#F9F1E7]  flex items-center gap-3 md:gap-4">
       <p className="text-sm md:text-base text-[#9F9F9F]">Home</p>
       <IoIosArrowForward className="text-[#9F9F9F]" />
       <p className="text-sm md:text-base text-[#9F9F9F]">Shop</p>
