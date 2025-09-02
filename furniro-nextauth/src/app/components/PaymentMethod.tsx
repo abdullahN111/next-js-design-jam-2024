@@ -4,7 +4,6 @@ import { useForm, UseFormRegister, FieldErrors } from "react-hook-form";
 import { FaAngleDown } from "react-icons/fa";
 import { useCart } from "@/app/context/CartContext";
 import { useRouter } from "next/navigation";
-
 import { v4 as uuidv4 } from "uuid";
 
 interface FormData {
@@ -34,9 +33,10 @@ interface SelectFieldProps extends Omit<InputFieldProps, "pattern"> {
 
 interface PaymentMethodProps {
   selectedOption: string;
+  onStripePayment: (formData: FormData) => Promise<void>;
 }
 
-const PaymentMethod = ({ selectedOption }: PaymentMethodProps) => {
+const PaymentMethod = ({ selectedOption, onStripePayment }: PaymentMethodProps) => {
   const {
     register,
     handleSubmit,
@@ -46,43 +46,48 @@ const PaymentMethod = ({ selectedOption }: PaymentMethodProps) => {
   const router = useRouter();
 
   const submitHandler = async (data: FormData) => {
-    const orderId = uuidv4().slice(0, 8);
-    const orderDetails = {
-      orderId,
-      user: { ...data },
-      items: cartItems.map((item) => ({
-        productId: item.id,
-        price: Number(item.price),
-        quantity: item.quantity,
-      })),
-      total: cartItems.reduce(
-        (acc, item) => acc + parseFloat(String(item.price)) * item.quantity,
-        0
-      ),
-      paymentMethod: selectedOption,
-    };
+    if (selectedOption === "Stripe") {
+      
+      await onStripePayment(data);
+    } else {
+     
+      const orderId = uuidv4().slice(0, 8);
+      const orderDetails = {
+        orderId,
+        user: { ...data },
+        items: cartItems.map((item) => ({
+          productId: item.id,
+          price: Number(item.price),
+          quantity: item.quantity,
+        })),
+        total: cartItems.reduce(
+          (acc, item) => acc + parseFloat(String(item.price)) * item.quantity,
+          0
+        ),
+        paymentMethod: selectedOption,
+      };
 
-    console.log("Submitting order with details:", orderDetails);
+      console.log("Submitting order with details:", orderDetails);
 
-    try {
-      const response = await fetch("/api/order", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(orderDetails),
-      });
+      try {
+        const response = await fetch("/api/order", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(orderDetails),
+        });
 
-      const result = await response.json();
+        const result = await response.json();
 
-      if (response.ok) {
-        localStorage.setItem("lastOrderId", orderId);
-        clearCart()
-        router.push("/track-order");
-    
-      } else {
-        console.error("Order submission failed:", result.message);
+        if (response.ok) {
+          localStorage.setItem("lastOrderId", orderId);
+          clearCart();
+          router.push("/track-order");
+        } else {
+          console.error("Order submission failed:", result.message);
+        }
+      } catch (error) {
+        console.error("Order submission failed", error);
       }
-    } catch (error) {
-      console.error("Order submission failed", error);
     }
   };
 

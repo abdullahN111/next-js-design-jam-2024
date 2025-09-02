@@ -2,15 +2,23 @@
 
 import Link from "next/link";
 import { useCart } from "@/app/context/CartContext";
+import { PaymentElement } from "@stripe/react-stripe-js";
 
 interface PaymentDetailsProps {
   selectedOption: string;
   setSelectedOption: React.Dispatch<React.SetStateAction<string>>;
+  amount: number;
+  clientSecret?: string;
+  isProcessing: boolean;
 }
 
 const PaymentDetails = ({
   selectedOption,
   setSelectedOption,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  amount,
+  clientSecret,
+  isProcessing,
 }: PaymentDetailsProps) => {
   const { cartItems } = useCart();
   const cartTotal = cartItems.reduce((total, item) => {
@@ -21,8 +29,6 @@ const PaymentDetails = ({
     return total + (isNaN(price) ? 0 : price * item.quantity);
   }, 0);
 
-
-
   return (
     <div className="w-full sm:w-[600px] pt-10 pb-16 lg:py-[102px] px-4 sm:px-8 lg:px-16">
       <div className="flex flex-col gap-4 mb-7">
@@ -30,7 +36,7 @@ const PaymentDetails = ({
           <h5 className="text-[21px] lg:text-[22px] font-semibold">Product</h5>
           <h5 className="text-[21px] lg:text-[22px] font-semibold">Subtotal</h5>
         </div>
-       
+
         {cartItems.map((item) => (
           <div key={item.id} className="flex items-center justify-between">
             <div className="flex items-center gap-[4px] sm:gap-[6px] lg:gap-2">
@@ -72,15 +78,16 @@ const PaymentDetails = ({
             <input
               type="radio"
               name="paymentMethod"
-              value="Direct Bank Transfer"
-              checked={selectedOption === "Direct Bank Transfer"}
-              onChange={() => setSelectedOption("Direct Bank Transfer")}
+              value="Stripe"
+              checked={selectedOption === "Stripe"}
+              onChange={() => setSelectedOption("Stripe")}
               className="form-radio text-[#9F9F9F] focus:ring-0"
             />
             <span className="text-base text-[#9F9F9F]">
-              Direct Bank Transfer
+              Credit / Debit Card
             </span>
           </label>
+
           <label className="flex items-center space-x-2 mt-3">
             <input
               type="radio"
@@ -103,12 +110,25 @@ const PaymentDetails = ({
             </Link>
           </p>
         </div>
+       {clientSecret && (
+  <div
+    className={`w-full mt-4 transition-all duration-300 ${
+      selectedOption === "Stripe" ? "block" : "hidden"
+    }`}
+  >
+    <PaymentElement />
+  </div>
+)}
+
         <button
-          type="submit" 
+          type="submit"
           form="checkout-form"
           className="block mx-auto w-[215px] sm:w-[230px] rounded-xl border border-black text-black px-2 py-3 text-xl hover:bg-[#fae9d3a6] transition my-5"
+          disabled={isProcessing}
         >
-          Place Order
+          {isProcessing
+            ? "Processing..."
+            : "Place Order"}
         </button>
       </div>
     </div>

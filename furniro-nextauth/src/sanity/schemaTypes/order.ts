@@ -44,7 +44,7 @@ export const order = defineType({
       type: "array",
       of: [{ type: "number" }],
     },
-  
+
     {
       name: "total",
       title: "Total",
@@ -57,12 +57,19 @@ export const order = defineType({
       options: {
         list: ["Pending", "Shipped", "Delivered"],
       },
+      initialValue: "Pending",
+    },
+    {
+      name: "dispatchedAt",
+      title: "Dispatched At",
+      type: "datetime",
     },
     {
       name: "paymentMethod",
       title: "Payment Method",
       type: "string",
     },
+
     {
       name: "createdAt",
       title: "Created At",

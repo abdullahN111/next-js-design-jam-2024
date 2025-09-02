@@ -4,7 +4,6 @@ import Image from "next/image";
 import Logo from "@/app/public/assets/images/main/Logo.png";
 import { TbUserExclamation } from "react-icons/tb";
 import { FiSearch } from "react-icons/fi";
-import { FaRegHeart } from "react-icons/fa";
 import { MdOutlineLocalGroceryStore } from "react-icons/md";
 import { FcMenu } from "react-icons/fc";
 
@@ -78,42 +77,16 @@ const Header = () => {
           </div>
         </Link>
 
-        {/* large screens */}
         <LgNavbar />
 
-        <div className="hidden lg:flex text-[26px] gap-8">
-          <Link
-            href="/"
-            className="cursor-pointer hover:shadow-[0_1px_0_rgba(0,0,0,0.2)] transition-shadow"
-            onClick={(e) => {
-              e.preventDefault();
-              toggleAccountInfo();
-            }}
-          >
-            {user?.image ? (
-              <Image
-                src={user.image}
-                alt={user.name || "User"}
-                width={31}
-                height={31}
-                className="rounded-full object-cover"
-              />
-            ) : (
-              <TbUserExclamation />
-            )}
-          </Link>
+        <div className="hidden lg:flex text-[26px] gap-8 items-center">
           <Link
             href="/"
             className="cursor-pointer hover:shadow-[0_1px_0_rgba(0,0,0,0.2)] transition-shadow"
           >
             <FiSearch />
           </Link>
-          <Link
-            href="/"
-            className="cursor-pointer hover:shadow-[0_1px_0_rgba(0,0,0,0.2)] transition-shadow"
-          >
-            <FaRegHeart />
-          </Link>
+
           <Link
             href="/"
             onClick={(e) => {
@@ -129,28 +102,6 @@ const Header = () => {
               </div>
             )}
           </Link>
-        </div>
-        {/* small screens */}
-        <div className="lg:hidden">
-          <button onClick={toggleMenu} className="relative text-3xl">
-            <FcMenu />
-            {cartItems.length > 0 && (
-              <div className="absolute top-[-8px] right-[-8px] bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                {cartItems.length}
-              </div>
-            )}
-          </button>
-        </div>
-      </div>
-
-      {/* menu bar */}
-
-      <div
-        className={`fixed left-0 top-24 inset-0 w-full h-[50%] bg-white shadow-md z-[1000] transition-all ease-in-out duration-300 ${openMenu ? "opacity-100" : "opacity-0 pointer-events-none"}
-        `}
-      >
-        <SmNavbar closeMenu={closeMenu} />
-        <div className="flex justify-center gap-6 py-4 text-[25px]">
           <Link
             href="/"
             className="cursor-pointer hover:shadow-[0_1px_0_rgba(0,0,0,0.2)] transition-shadow"
@@ -171,6 +122,26 @@ const Header = () => {
               <TbUserExclamation />
             )}
           </Link>
+        </div>
+
+        <div className="lg:hidden">
+          <button onClick={toggleMenu} className="relative text-3xl">
+            <FcMenu />
+            {cartItems.length > 0 && (
+              <div className="absolute top-[-8px] right-[-8px] bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                {cartItems.length}
+              </div>
+            )}
+          </button>
+        </div>
+      </div>
+
+      <div
+        className={`fixed left-0 top-24 inset-0 w-full h-[50%] bg-white shadow-md z-[1000] transition-all ease-in-out duration-300 ${openMenu ? "opacity-100" : "opacity-0 pointer-events-none"}
+        `}
+      >
+        <SmNavbar closeMenu={closeMenu} />
+        <div className="flex justify-center gap-6 py-4 text-[25px]">
           <Link
             href="/"
             onClick={closeMenu}
@@ -178,13 +149,7 @@ const Header = () => {
           >
             <FiSearch />
           </Link>
-          <Link
-            href="/"
-            onClick={closeMenu}
-            className="cursor-pointer hover:shadow-[0_1px_0_rgba(0,0,0,0.2)] transition-shadow"
-          >
-            <FaRegHeart />
-          </Link>
+
           <button
             onClick={toggleCart}
             className="relative cursor-pointer hover:shadow-[0_1px_0_rgba(0,0,0,0.2)] transition-shadow"
@@ -196,6 +161,26 @@ const Header = () => {
               </div>
             )}
           </button>
+          <Link
+            href="/"
+            className="cursor-pointer hover:shadow-[0_1px_0_rgba(0,0,0,0.2)] transition-shadow"
+            onClick={(e) => {
+              e.preventDefault();
+              toggleAccountInfo();
+            }}
+          >
+            {user?.image ? (
+              <Image
+                src={user.image}
+                alt={user.name || "User"}
+                width={31}
+                height={31}
+                className="rounded-full object-cover"
+              />
+            ) : (
+              <TbUserExclamation />
+            )}
+          </Link>
         </div>
       </div>
 
