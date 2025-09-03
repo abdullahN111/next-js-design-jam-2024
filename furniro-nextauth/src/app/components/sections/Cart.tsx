@@ -16,10 +16,10 @@ const Cart = () => {
 
   return (
     <section className="max-w-[1440px] bg-white container mx-auto px-3 sm:px-6 lg:px-20 py-10">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
           <div className="overflow-x-auto lg:overflow-x-visible">
-            <table className="w-full min-w-[700px] border-collapse bg-white text-left text-sm">
+            <table className="w-full min-w-[700px] lg:min-w-[650px] border-collapse bg-white text-left text-sm">
               <thead className="bg-[#F9F1E7]">
                 <tr className="text-base font-semibold">
                   <th className="p-4 border-none whitespace-nowrap">Product</th>
@@ -106,7 +106,7 @@ const Cart = () => {
           </div>
         </div>
 
-        {/* Only change made: Added max-w-md to prevent merging on medium screens */}
+
         <div className="bg-[#F9F1E7] py-8 px-6 lg:px-10 sm:p-8 rounded-sm shadow-lg w-auto sm:w-1/2 lg:w-full max-w-md lg:max-w-none mx-auto">
           {cartItems.length > 0 ? (
             <h2 className="text-3xl font-semibold text-center mb-16">
