@@ -103,7 +103,7 @@ const Cart = () => {
         </div>
 
         
-        <div className="sm:w-[400px] lg:w-[350px]">
+        <div className="sm:w-[400px] lg:w-[350px] flex item-center">
           <div className="bg-[#F9F1E7] py-8 px-6 sm:px-8 rounded-sm shadow-lg h-fit sticky top-8">
             {cartItems.length > 0 ? (
               <h2 className="text-3xl font-semibold text-center mb-8">
