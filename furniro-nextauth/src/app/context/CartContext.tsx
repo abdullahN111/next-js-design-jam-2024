@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from "react";
@@ -11,7 +10,6 @@ export type CartItem = {
   price: number | string;
   quantity: number;
   image: string | StaticImageData;
-  slug?: {current: string};
 };
 
 type CartContextType = {
@@ -105,7 +103,9 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const updateQuantity = (id: string, quantity: number) => {
     setCartItems((prev) =>
-      prev.map((i) => (i.id === id ? { ...i, quantity: Math.max(1, quantity) } : i))
+      prev.map((i) =>
+        i.id === id ? { ...i, quantity: Math.max(1, quantity) } : i
+      )
     );
   };
 
@@ -120,7 +120,13 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
 
   return (
     <CartContext.Provider
-      value={{ cartItems, addToCart, removeFromCart, updateQuantity, clearCart }}
+      value={{
+        cartItems,
+        addToCart,
+        removeFromCart,
+        updateQuantity,
+        clearCart,
+      }}
     >
       {children}
     </CartContext.Provider>

@@ -4,9 +4,22 @@ import Image from "next/image";
 import { useCart } from "@/app/context/CartContext";
 import Link from "next/link";
 import { MdCancel } from "react-icons/md";
+import { fetchProducts, ProductCardData } from "@/app/Data";
+import { useEffect, useState } from "react";
 
 const Cart = () => {
   const { cartItems, removeFromCart, updateQuantity } = useCart();
+
+  const [products, setProducts] = useState<ProductCardData[]>([]);
+
+  useEffect(() => {
+    async function loadProducts() {
+      const fetchedProducts = await fetchProducts();
+      setProducts(fetchedProducts);
+    }
+
+    loadProducts();
+  }, []);
 
   const cartTotal = cartItems.reduce((total, item) => {
     const price = parseFloat(item.price.toString().replace(/[^0-9.]+/g, ""));
@@ -31,6 +44,9 @@ const Cart = () => {
                   parseFloat(item.price.toString().replace(/[^0-9.]+/g, "")) *
                   item.quantity;
 
+                const product = products.find((p) => p._id === item.id);
+                const slug = product?.slug.current;
+
                 return (
                   <div
                     key={item.id}
@@ -38,7 +54,7 @@ const Cart = () => {
                   >
                     <div className="col-span-5 flex items-center space-x-4">
                       <div className="relative w-16 h-16 flex-shrink-0">
-                        <Link href={`/add-to-cart/${item.slug?.current}`}>
+                        <Link href={`/add-to-cart/${slug}`}>
                           <Image
                             src={item.image}
                             alt="product"
@@ -48,7 +64,7 @@ const Cart = () => {
                           />
                         </Link>
                       </div>
-                      <Link href={`/add-to-cart/${item.slug?.current}`}>
+                      <Link href={`/add-to-cart/${slug}`}>
                         <span className="text-gray-700 font-medium">
                           {item.name}
                         </span>
@@ -111,6 +127,9 @@ const Cart = () => {
               parseFloat(item.price.toString().replace(/[^0-9.]+/g, "")) *
               item.quantity;
 
+            const product = products.find((p) => p._id === item.id);
+            const slug = product?.slug.current;
+
             return (
               <div
                 key={item.id}
@@ -119,7 +138,7 @@ const Cart = () => {
                 <div className="flex justify-between items-start mb-3">
                   <div className="flex items-center space-x-3">
                     <div className="relative w-16 h-16 flex-shrink-0">
-                      <Link href={`/add-to-cart/${item.slug?.current}`}>
+                      <Link href={`/add-to-cart/${slug}`}>
                         <Image
                           src={item.image}
                           alt="product"
@@ -130,7 +149,7 @@ const Cart = () => {
                       </Link>
                     </div>
                     <div>
-                      <Link href={`/add-to-cart/${item.slug?.current}`}>
+                      <Link href={`/add-to-cart/${slug}`}>
                         <h3 className="font-medium text-gray-800">
                           {item.name}
                         </h3>
