@@ -11,6 +11,7 @@ export type CartItem = {
   price: number | string;
   quantity: number;
   image: string | StaticImageData;
+  slug?: {current: string};
 };
 
 type CartContextType = {
@@ -43,7 +44,6 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
     const guestItems = guest ? JSON.parse(guest) : [];
     const storedItems = stored ? JSON.parse(stored) : [];
 
-    // if user, merge guest + user, else use guest only
     if (userEmail) {
       const merged = mergeCarts(guestItems, storedItems);
       localStorage.removeItem("cart-guest");

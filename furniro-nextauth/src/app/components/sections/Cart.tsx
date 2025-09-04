@@ -38,17 +38,21 @@ const Cart = () => {
                   >
                     <div className="col-span-5 flex items-center space-x-4">
                       <div className="relative w-16 h-16 flex-shrink-0">
-                        <Image
-                          src={item.image}
-                          alt="product"
-                          fill
-                          className="rounded-md object-cover"
-                          sizes="64px"
-                        />
+                        <Link href={`/add-to-cart/${item.slug?.current}`}>
+                          <Image
+                            src={item.image}
+                            alt="product"
+                            fill
+                            className="rounded-md object-cover"
+                            sizes="64px"
+                          />
+                        </Link>
                       </div>
-                      <span className="text-gray-700 font-medium">
-                        {item.name}
-                      </span>
+                      <Link href={`/add-to-cart/${item.slug?.current}`}>
+                        <span className="text-gray-700 font-medium">
+                          {item.name}
+                        </span>
+                      </Link>
                     </div>
 
                     <div className="col-span-2 text-center text-gray-600">
@@ -70,7 +74,7 @@ const Cart = () => {
                           value={item.quantity}
                           min={1}
                           readOnly
-                          className="text-center border-none bg-transparent focus:outline-none"
+                          className="w-4 text-center border-none bg-transparent focus:outline-none"
                         />
                         <button
                           onClick={() =>
@@ -101,7 +105,6 @@ const Cart = () => {
           </div>
         </div>
 
-        
         <div className="md:hidden space-y-4">
           {cartItems.map((item) => {
             const subtotal =
@@ -116,16 +119,22 @@ const Cart = () => {
                 <div className="flex justify-between items-start mb-3">
                   <div className="flex items-center space-x-3">
                     <div className="relative w-16 h-16 flex-shrink-0">
-                      <Image
-                        src={item.image}
-                        alt="product"
-                        fill
-                        className="rounded-md object-cover"
-                        sizes="64px"
-                      />
+                      <Link href={`/add-to-cart/${item.slug?.current}`}>
+                        <Image
+                          src={item.image}
+                          alt="product"
+                          fill
+                          className="rounded-md object-cover"
+                          sizes="64px"
+                        />
+                      </Link>
                     </div>
                     <div>
-                      <h3 className="font-medium text-gray-800">{item.name}</h3>
+                      <Link href={`/add-to-cart/${item.slug?.current}`}>
+                        <h3 className="font-medium text-gray-800">
+                          {item.name}
+                        </h3>
+                      </Link>
                       <p className="text-gray-600 text-sm">$ {item.price}</p>
                     </div>
                   </div>
@@ -150,7 +159,7 @@ const Cart = () => {
                       value={item.quantity}
                       min={1}
                       readOnly
-                      className="text-center border-none bg-transparent focus:outline-none"
+                      className="w-4 text-center border-none bg-transparent focus:outline-none"
                     />
                     <button
                       onClick={() => updateQuantity(item.id, item.quantity + 1)}
