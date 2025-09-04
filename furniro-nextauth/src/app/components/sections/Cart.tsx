@@ -14,12 +14,8 @@ const Cart = () => {
   }, 0);
 
   return (
-    <section className="max-w-[1440px] bg-white container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 py-8">
-
-      <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">Fumiro</h1>
-      
+    <section className="max-w-[1440px] bg-white container mx-auto px-6 sm:px-24 md:px-8 xl:px-12 py-8">
       <div className="flex flex-col lg:flex-row gap-6 xl:gap-8">
-      
         <div className="hidden md:block flex-1">
           <div className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
             <div className="bg-[#F9F1E7] px-6 py-4 grid grid-cols-12 gap-4 text-base font-semibold">
@@ -28,7 +24,7 @@ const Cart = () => {
               <div className="col-span-3 text-center">Quantity</div>
               <div className="col-span-2 text-right">Subtotal</div>
             </div>
-            
+
             <div className="divide-y divide-gray-100">
               {cartItems.map((item) => {
                 const subtotal =
@@ -36,7 +32,10 @@ const Cart = () => {
                   item.quantity;
 
                 return (
-                  <div key={item.id} className="grid grid-cols-12 gap-4 px-6 py-4 items-center">
+                  <div
+                    key={item.id}
+                    className="grid grid-cols-12 gap-4 px-6 py-4 items-center"
+                  >
                     <div className="col-span-5 flex items-center space-x-4">
                       <div className="relative w-16 h-16 flex-shrink-0">
                         <Image
@@ -47,17 +46,21 @@ const Cart = () => {
                           sizes="64px"
                         />
                       </div>
-                      <span className="text-gray-700 font-medium">{item.name}</span>
+                      <span className="text-gray-700 font-medium">
+                        {item.name}
+                      </span>
                     </div>
-                    
+
                     <div className="col-span-2 text-center text-gray-600">
                       $ {item.price}
                     </div>
-                    
+
                     <div className="col-span-3 flex justify-center">
                       <div className="flex items-center space-x-2 border border-gray-300 rounded-lg px-2 py-1">
                         <button
-                          onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                          onClick={() =>
+                            updateQuantity(item.id, item.quantity - 1)
+                          }
                           className="px-1 text-gray-600 hover:text-[#B88E2F]"
                         >
                           -
@@ -67,19 +70,23 @@ const Cart = () => {
                           value={item.quantity}
                           min={1}
                           readOnly
-                          className="w-8 text-center border-none bg-transparent focus:outline-none"
+                          className="text-center border-none bg-transparent focus:outline-none"
                         />
                         <button
-                          onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                          onClick={() =>
+                            updateQuantity(item.id, item.quantity + 1)
+                          }
                           className="px-1 text-gray-600 hover:text-[#B88E2F]"
                         >
                           +
                         </button>
                       </div>
                     </div>
-                    
+
                     <div className="col-span-2 flex items-center justify-end space-x-4">
-                      <span className="text-gray-800 font-medium">$ {subtotal}</span>
+                      <span className="text-gray-800 font-medium">
+                        $ {subtotal}
+                      </span>
                       <button
                         onClick={() => removeFromCart(item.id)}
                         className="text-gray-400 hover:text-red-500"
@@ -94,7 +101,7 @@ const Cart = () => {
           </div>
         </div>
 
-        {/* Cart Items - Mobile View */}
+        
         <div className="md:hidden space-y-4">
           {cartItems.map((item) => {
             const subtotal =
@@ -102,7 +109,10 @@ const Cart = () => {
               item.quantity;
 
             return (
-              <div key={item.id} className="bg-white rounded-lg shadow-sm border border-gray-100 p-4">
+              <div
+                key={item.id}
+                className="bg-white rounded-lg shadow-sm border border-gray-100 p-4"
+              >
                 <div className="flex justify-between items-start mb-3">
                   <div className="flex items-center space-x-3">
                     <div className="relative w-16 h-16 flex-shrink-0">
@@ -126,7 +136,7 @@ const Cart = () => {
                     <MdCancel size={18} />
                   </button>
                 </div>
-                
+
                 <div className="flex justify-between items-center mt-3 pt-3 border-t border-gray-100">
                   <div className="flex items-center space-x-2 border border-gray-300 rounded-lg px-2 py-1">
                     <button
@@ -140,7 +150,7 @@ const Cart = () => {
                       value={item.quantity}
                       min={1}
                       readOnly
-                      className="w-8 text-center border-none bg-transparent focus:outline-none"
+                      className="text-center border-none bg-transparent focus:outline-none"
                     />
                     <button
                       onClick={() => updateQuantity(item.id, item.quantity + 1)}
@@ -149,18 +159,21 @@ const Cart = () => {
                       +
                     </button>
                   </div>
-                  <span className="text-gray-800 font-medium">$ {subtotal}</span>
+                  <span className="text-gray-800 font-medium">
+                    $ {subtotal}
+                  </span>
                 </div>
               </div>
             );
           })}
         </div>
 
-      
         <div className="lg:w-96 xl:w-80">
           <div className="bg-[#F9F1E7] rounded-lg shadow-sm p-6 sticky top-6">
-            <h2 className="text-2xl font-semibold text-center mb-6">Cart Totals</h2>
-            
+            <h2 className="text-2xl font-semibold text-center mb-6">
+              Cart Totals
+            </h2>
+
             <div className="space-y-4 mb-6">
               <div className="flex justify-between">
                 <span className="text-gray-700">Subtotal</span>
