@@ -74,7 +74,7 @@ const Cart = () => {
                           value={item.quantity}
                           min={1}
                           readOnly
-                          className="w-4 text-center border-none bg-transparent focus:outline-none"
+                          className="w-6 text-center border-none bg-transparent focus:outline-none"
                         />
                         <button
                           onClick={() =>
@@ -159,7 +159,7 @@ const Cart = () => {
                       value={item.quantity}
                       min={1}
                       readOnly
-                      className="w-4 text-center border-none bg-transparent focus:outline-none"
+                      className="w-6 text-center border-none bg-transparent focus:outline-none"
                     />
                     <button
                       onClick={() => updateQuantity(item.id, item.quantity + 1)}
