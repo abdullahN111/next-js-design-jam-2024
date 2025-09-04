@@ -15,7 +15,7 @@ const Cart = () => {
 
   return (
     <section className="max-w-[1440px] bg-white container mx-auto px-3 sm:px-6 lg:px-12 py-10">
-      <div className="flex flex-col lg:flex-row gap-8 justify-center">
+      <div className="flex flex-col lg:flex-row gap-8 justify-center items-center">
         
         <div className="flex-1 overflow-x-auto">
           <table className="w-full min-w-[700px] border-collapse bg-white text-left text-sm">
