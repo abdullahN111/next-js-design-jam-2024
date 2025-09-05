@@ -185,12 +185,14 @@ const Header = () => {
       </div>
 
       <div
+      onClick={() => setOpenCart(false)}
         className={`fixed right-0 top-0 inset-0 w-full h-screen bg-black bg-opacity-20 z-[1000] flex justify-end 
         transition-all ease-in-out duration-300 ${openCart ? "opacity-100" : "opacity-0 pointer-events-none"}`}
       >
         <CartItems closeCart={() => setOpenCart(false)} />
       </div>
       <div
+        onClick={() => setOpenAccountInfo(false)}
         className={`fixed right-0 top-0 inset-0 w-full h-screen bg-black bg-opacity-20 z-[1000] flex justify-end 
         transition-all ease-in-out duration-300 ${openAccountInfo ? "opacity-100" : "opacity-0 pointer-events-none"}`}
       >
