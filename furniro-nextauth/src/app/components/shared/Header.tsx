@@ -137,7 +137,7 @@ const Header = () => {
       </div>
 
       <div
-        onClick={() => setOpenMenu(false)}
+      
         className={`fixed left-0 top-24 inset-0 w-full h-[50%] bg-white shadow-md z-[1000] transition-all ease-in-out duration-300 ${openMenu ? "opacity-100" : "opacity-0 pointer-events-none"}
         `}
       >
