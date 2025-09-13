@@ -86,3 +86,11 @@ export async function fetchProducts(): Promise<ProductCardData[]> {
     };
   });
 }
+
+export const staticRoutes = [
+  { title: "Home", path: "/" },
+  { title: "Shop", path: "/shop" },
+  { title: "Contact", path: "/contact" },
+  { title: "About", path: "/about" },
+  { title: "Orders", path: "/orders" },
+];

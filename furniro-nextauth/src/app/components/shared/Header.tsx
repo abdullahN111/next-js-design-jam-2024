@@ -16,6 +16,7 @@ import SmNavbar from "@/app/components/shared/SmNavbar";
 import LgNavbar from "@/app/components/shared/LgNavbar";
 
 import ClientAccountInfo from "@/app/components/ClientAccountInfo";
+import SearchBox from "../SearchBox";
 
 interface User {
   name?: string;
@@ -28,6 +29,7 @@ const Header = () => {
   const [openCart, setOpenCart] = useState(false);
   const [openAccountInfo, setOpenAccountInfo] = useState(false);
   const [user, setUser] = useState<User | null>(null);
+  const [openSearch, setOpenSearch] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -80,13 +82,20 @@ const Header = () => {
         <LgNavbar />
 
         <div className="hidden lg:flex text-[26px] gap-8 items-center">
-          <Link
-            href="/"
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              setOpenSearch((prev) => !prev);
+            }}
             className="cursor-pointer hover:shadow-[0_1px_0_rgba(0,0,0,0.2)] transition-shadow"
           >
             <FiSearch />
-          </Link>
-
+          </button>
+          {openSearch && (
+            <div className="absolute top-24 left-0 w-full z-[2000] p-4">
+              <SearchBox close={() => setOpenSearch(false)} />
+            </div>
+          )}
           <Link
             href="/"
             onClick={(e) => {
@@ -137,19 +146,25 @@ const Header = () => {
       </div>
 
       <div
-      
         className={`fixed left-0 top-24 inset-0 w-full h-[50%] bg-white shadow-md z-[1000] transition-all ease-in-out duration-300 ${openMenu ? "opacity-100" : "opacity-0 pointer-events-none"}
         `}
       >
         <SmNavbar closeMenu={closeMenu} />
         <div className="flex justify-center gap-6 py-4 text-[25px]">
-          <Link
-            href="/"
-            onClick={closeMenu}
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              setOpenSearch((prev) => !prev);
+            }}
             className="cursor-pointer hover:shadow-[0_1px_0_rgba(0,0,0,0.2)] transition-shadow"
           >
             <FiSearch />
-          </Link>
+          </button>
+          {openSearch && (
+            <div className="absolute top-24 left-0 w-full z-[2000] p-4">
+              <SearchBox close={() => setOpenSearch(false)} />
+            </div>
+          )}
 
           <button
             onClick={toggleCart}
