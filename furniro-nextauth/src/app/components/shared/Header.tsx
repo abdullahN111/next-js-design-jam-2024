@@ -65,7 +65,7 @@ const Header = () => {
 
   return (
     <header
-      className={`bg-[#FFFFFF] mx-auto max-w-[1440px] h-24 px-6 lg:px-[54px] transition-all duration-300 ease-in-out 
+      className={`bg-[#FFFFFF] mx-auto max-w-[1440px] h-[88px] px-6 lg:px-[54px] transition-all duration-300 ease-in-out 
     ${cartItems.length > 0 ? "sticky top-0 z-[1000] shadow-md" : "relative"}
   `}
     >
@@ -73,7 +73,7 @@ const Header = () => {
         <Link href="/">
           <div className="flex items-center gap-2">
             <Image src={Logo} alt="furniro logo" width={46} height={30} />
-            <h2 className="text-[24px] md:text-[34px] font-bold font-montserrat">
+            <h2 className="text-[24px] md:text-[32px] font-bold font-montserrat">
               Furniro
             </h2>
           </div>
