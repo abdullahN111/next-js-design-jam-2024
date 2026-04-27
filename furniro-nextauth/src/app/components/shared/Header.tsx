@@ -72,7 +72,7 @@ const Header = () => {
       <div className="flex items-center justify-between h-full">
         <Link href="/">
           <div className="flex items-center gap-2">
-            <Image src={Logo} alt="furniro logo" width={46} height={30} />
+            <Image src={Logo} alt="furniro logo" width={45} height={30} />
             <h2 className="text-[24px] md:text-[32px] font-bold font-montserrat">
               Furniro
             </h2>

@@ -52,7 +52,7 @@ const About = () => {
             Crafting Spaces, Creating Stories
           </h1>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            At Furniro, we don&apos;t just sell furniture—we help you create
+            At Furniro, we don&apos;t just sell furniture we help you create
             environments that inspire, comfort, and reflect your unique
             personality.
           </p>
