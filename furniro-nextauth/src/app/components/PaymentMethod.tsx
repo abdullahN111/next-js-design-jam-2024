@@ -5,6 +5,8 @@ import { FaAngleDown } from "react-icons/fa";
 import { useCart } from "@/app/context/CartContext";
 import { useRouter } from "next/navigation";
 import { v4 as uuidv4 } from "uuid";
+import { useSession } from "next-auth/react";
+import { useEffect } from "react";
 
 interface FormData {
   firstname: string;
@@ -36,21 +38,31 @@ interface PaymentMethodProps {
   onStripePayment: (formData: FormData) => Promise<void>;
 }
 
-const PaymentMethod = ({ selectedOption, onStripePayment }: PaymentMethodProps) => {
+const PaymentMethod = ({
+  selectedOption,
+  onStripePayment,
+}: PaymentMethodProps) => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<FormData>();
+
   const { cartItems, clearCart } = useCart();
   const router = useRouter();
+  const { data: session } = useSession();
+
+  useEffect(() => {
+    if (session?.user?.email) {
+      setValue("email", session.user.email);
+    }
+  }, [session, setValue]);
 
   const submitHandler = async (data: FormData) => {
     if (selectedOption === "Stripe") {
-      
       await onStripePayment(data);
     } else {
-     
       const orderId = uuidv4().slice(0, 8);
       const orderDetails = {
         orderId,
@@ -62,7 +74,7 @@ const PaymentMethod = ({ selectedOption, onStripePayment }: PaymentMethodProps) 
         })),
         total: cartItems.reduce(
           (acc, item) => acc + parseFloat(String(item.price)) * item.quantity,
-          0
+          0,
         ),
         paymentMethod: selectedOption,
       };
@@ -118,6 +130,31 @@ const PaymentMethod = ({ selectedOption, onStripePayment }: PaymentMethodProps) 
           />
         </div>
 
+        <InputField
+          label="Phone"
+          id="phone"
+          register={register}
+          errors={errors}
+          required
+          pattern={/^[0-9]+$/}
+        />
+        <div className="flex flex-col gap-[17px] w-full">
+          <label className="text-base font-semibold">Email</label>
+
+          <input
+            type="email"
+            value={session?.user?.email || ""}
+            readOnly
+            className="border border-[#9F9F9F] rounded-lg h-[70px] w-full text-base px-[14px] bg-gray-100 cursor-not-allowed"
+          />
+
+          <input
+            type="hidden"
+            {...register("email")}
+            value={session?.user?.email || ""}
+          />
+        </div>
+
         <SelectField
           label="Country / Region"
           id="country"
@@ -130,21 +167,6 @@ const PaymentMethod = ({ selectedOption, onStripePayment }: PaymentMethodProps) 
           <option value="Bangladesh">Bangladesh</option>
           <option value="Sri Lanka">Sri Lanka</option>
         </SelectField>
-
-        <InputField
-          label="Street Address"
-          id="streetaddress"
-          register={register}
-          errors={errors}
-          required
-        />
-        <InputField
-          label="Town / City"
-          id="city"
-          register={register}
-          errors={errors}
-          required
-        />
 
         <SelectField
           label="Province"
@@ -160,28 +182,27 @@ const PaymentMethod = ({ selectedOption, onStripePayment }: PaymentMethodProps) 
         </SelectField>
 
         <InputField
+          label="Town / City"
+          id="city"
+          register={register}
+          errors={errors}
+          required
+        />
+        <InputField
+          label="Street Address"
+          id="streetaddress"
+          register={register}
+          errors={errors}
+          required
+        />
+
+        <InputField
           label="Zip Code"
           id="zipcode"
           register={register}
           errors={errors}
           required
           pattern={/^[0-9]{5}$/}
-        />
-        <InputField
-          label="Phone"
-          id="phone"
-          register={register}
-          errors={errors}
-          required
-          pattern={/^[0-9]+$/}
-        />
-        <InputField
-          label="Email"
-          id="email"
-          register={register}
-          errors={errors}
-          required
-          pattern={/^[^\s@]+@[^\s@]+\.[^\s@]+$/}
         />
       </form>
     </div>
