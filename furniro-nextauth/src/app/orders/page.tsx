@@ -12,11 +12,18 @@ import Link from "next/link";
 const OrderCard = ({
   order,
   type,
+  selectionMode,
+  selectedProducts,
+  toggleProduct,
 }: {
   order: Order;
   type: "receive" | "delivered" | "review";
+  selectionMode?: boolean;
+  selectedProducts?: string[];
+  toggleProduct?: (id: string) => void;
 }) => {
   const [products, setProducts] = useState<ProductCardData[]>([]);
+
 
   useEffect(() => {
     async function loadProducts() {
@@ -26,6 +33,7 @@ const OrderCard = ({
 
     loadProducts();
   }, []);
+
   const steps = ["Pending", "Processing", "Dispatched", "Shipped", "Delivered"];
   const currentIndex = steps.indexOf(order.status);
   return (
@@ -34,13 +42,12 @@ const OrderCard = ({
         <div>
           <h3 className="font-semibold text-gray-800">Furniro</h3>
           <p
-            className={`text-sm ${
-              order.status === "Delivered"
-                ? "text-green-600"
-                : order.status === "Pending"
-                  ? "text-yellow-600"
-                  : "text-blue-600"
-            }`}
+            className={`text-sm ${order.status === "Delivered"
+              ? "text-green-600"
+              : order.status === "Pending"
+                ? "text-yellow-600"
+                : "text-blue-600"
+              }`}
           >
             {order.status}
           </p>
@@ -48,11 +55,10 @@ const OrderCard = ({
             {steps.map((step, index) => (
               <div key={step} className="flex items-center">
                 <span
-                  className={`px-2 py-1 rounded-full ${
-                    index <= currentIndex
-                      ? "bg-[#B88E2F] text-white"
-                      : "bg-gray-200 text-gray-500"
-                  }`}
+                  className={`px-2 py-1 rounded-full ${index <= currentIndex
+                    ? "bg-[#B88E2F] text-white"
+                    : "bg-gray-200 text-gray-500"
+                    }`}
                 >
                   {step}
                 </span>
@@ -77,18 +83,33 @@ const OrderCard = ({
             className="flex flex-col lg:flex-row justify-between items-start lg:items-center py-4 border-b border-gray-100 last:border-b-0"
           >
             <div className="flex items-start space-x-4 w-full lg:w-auto">
-              <div className="relative w-20 h-20 flex-shrink-0">
-                <Image
-                  src={item.productImage || "/placeholder-image.jpg"}
-                  alt={item.title}
-                  fill
-                  className="object-cover rounded-md"
-                />
-              </div>
+              {selectionMode &&
+                type === "delivered" &&
+                selectedProducts &&
+                toggleProduct && (
+                  <input
+                    type="checkbox"
+                    checked={selectedProducts.includes(item._id)}
+                    onChange={() => toggleProduct(item._id)}
+                    className="mr-2"
+                  />
+                )}
+              <Link href={`/add-to-cart/${slug}`}>
+                <div className="relative w-20 h-20 flex-shrink-0">
+                  <Image
+                    src={item.productImage || "/placeholder-image.jpg"}
+                    alt={item.title}
+                    fill
+                    className="object-cover rounded-md"
+                  />
+                </div>
+              </Link>
               <div className="flex-1 min-w-0">
-                <h4 className="font-medium text-gray-900 text-[13px] sm:text-sm line-clamp-2">
-                  {item.title}
-                </h4>
+                <Link href={`/add-to-cart/${slug}`}>
+                  <h4 className="font-medium text-gray-900 text-[13px] sm:text-sm line-clamp-2">
+                    {item.title}
+                  </h4>
+                </Link>
                 <p className="text-xs text-gray-500 mt-1">
                   Color Family: White Black
                 </p>
@@ -105,24 +126,26 @@ const OrderCard = ({
                   Qty: {order.itemQuantities[index]}
                 </p>
               </div>
-              <div className="lg:mt-2">
-                <Link
-                  href={`/add-to-cart/${slug}`}
-                  className="text-xs text-blue-600 hover:text-blue-800 lg:block hidden"
-                >
-                  View Details
-                </Link>
-              </div>
+
             </div>
           </div>
         );
       })}
 
       <div className="flex justify-between items-center pt-4">
+
         <div className="text-sm text-gray-500">
           Ordered on {new Date(order.createdAt).toLocaleDateString()}
         </div>
-        <div className="flex">
+        <div className="flex flex-col items-center gap-[6px]">
+
+          <Link
+            href={`/track-order?orderId=${order.orderId}`}
+            className="text-sm text-blue-600 hover:text-blue-800 lg:block hidden"
+          >
+            View Details
+          </Link>
+
           <button className="px-3 py-2 text-sm bg-[#B88E2F] text-white rounded-md hover:bg-[#a57d28]">
             Contact Seller
           </button>
@@ -165,6 +188,19 @@ const Order = () => {
     "receive" | "delivered" | "review"
   >("receive");
 
+  const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
+  const [selectionMode, setSelectionMode] = useState(false);
+
+  const toggleProduct = (productId: string) => {
+    setSelectedProducts((prev) =>
+      prev.includes(productId)
+        ? prev.filter((id) => id !== productId)
+        : prev.length < 8
+          ? [...prev, productId]
+          : prev,
+    );
+  };
+
   useEffect(() => {
     const loadOrders = async () => {
       if (status === "loading") return;
@@ -186,6 +222,45 @@ const Order = () => {
 
     loadOrders();
   }, [session, status]);
+
+  const createGallery = async () => {
+    if (selectedProducts.length < 4) {
+      alert("Please select at least 4 products to create a gallery");
+      return;
+    }
+
+    await fetch("/api/gallery", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        userEmail: session?.user?.email,
+        products: selectedProducts,
+      }),
+    });
+
+    setSelectionMode(false);
+    setSelectedProducts([]);
+  };
+
+  const handleGalleryMode = async () => {
+    if (!selectionMode) {
+      const res = await fetch(
+        `/api/gallery?email=${session?.user?.email}`
+      );
+
+      const data = await res.json();
+
+      if (data.gallery?.products) {
+        setSelectedProducts(
+          data.gallery.products.map(
+            (product: { _id: string }) => product._id
+          )
+        );
+      }
+    }
+
+    setSelectionMode((prev) => !prev);
+  };
 
   if (status === "loading" || loading) {
     return (
@@ -243,11 +318,10 @@ const Order = () => {
               onClick={() =>
                 setActiveTab(tab.key as "receive" | "delivered" | "review")
               }
-              className={`pb-2 text-sm font-medium ${
-                activeTab === tab.key
-                  ? "border-b-2 border-[#B88E2F] text-[#B88E2F]"
-                  : "text-gray-500"
-              }`}
+              className={`pb-2 text-sm font-medium ${activeTab === tab.key
+                ? "border-b-2 border-[#B88E2F] text-[#B88E2F]"
+                : "text-gray-500"
+                }`}
             >
               {tab.label}
             </button>
@@ -275,10 +349,36 @@ const Order = () => {
                 </p>
               ))}
 
+            {activeTab === "delivered" && (
+              <div className="mb-4 flex gap-3">
+                <button
+                  onClick={handleGalleryMode}
+                  className="bg-gray-800 text-white px-4 py-2 rounded"
+                >
+                  {selectionMode ? "Cancel" : "Create Gallery"}
+                </button>
+
+                {selectionMode && (
+                  <button
+                    onClick={createGallery}
+                    className="bg-[#B88E2F] text-white px-4 py-2 rounded"
+                  >
+                    Save Gallery ({selectedProducts.length}/8)
+                  </button>
+                )}
+              </div>
+            )}
             {activeTab === "delivered" &&
               (deliveredOrders.length > 0 ? (
                 deliveredOrders.map((order) => (
-                  <OrderCard key={order._id} order={order} type="delivered" />
+                  <OrderCard
+                    key={order._id}
+                    order={order}
+                    type="delivered"
+                    selectionMode={selectionMode}
+                    selectedProducts={selectedProducts}
+                    toggleProduct={toggleProduct}
+                  />
                 ))
               ) : (
                 <p className="text-gray-500 text-center">No delivered orders</p>

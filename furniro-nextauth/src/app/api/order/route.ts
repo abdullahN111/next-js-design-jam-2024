@@ -32,7 +32,7 @@ export async function POST(req: Request) {
 
     const safeUser = {
       ...user,
-      email: session.user.email,
+      email: session.user.email, 
     };
     const productRefs = items.map((item: OrderItem) => ({
       _key: uuidv4(),
