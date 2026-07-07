@@ -5,12 +5,18 @@ import { useParams } from "next/navigation";
 import { ProductCardData, fetchProducts } from "@/app/Data/index";
 import { useState, useEffect } from "react";
 import { useCart } from "@/app/context/CartContext";
+import { IoShareSocialOutline } from "react-icons/io5";
+import { MdOutlineInventory2 } from "react-icons/md";
+import { FaRegHeart, FaHeart } from "react-icons/fa";
 
 const ProductDetail = () => {
   const { addToCart } = useCart();
   const [quantity, setQuantity] = useState(1);
   const { id } = useParams<{ id: string }>();
   const [products, setProducts] = useState<ProductCardData[] | null>(null);
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [loadingFavorite, setLoadingFavorite] = useState(false);
+
 
   useEffect(() => {
     async function loadProducts() {
@@ -20,13 +26,33 @@ const ProductDetail = () => {
     loadProducts();
   }, []);
 
+
+  const product = products?.find(
+    (item) => item._id === id || item.slug?.current === id
+  );
+
+  useEffect(() => {
+    if (!product) return;
+
+    const fetchFavoriteStatus = async () => {
+      try {
+        const res = await fetch(`/api/favorites?productId=${product._id}`);
+        const data = await res.json();
+
+        if (res.ok) {
+          setIsFavorite(data.isFavorite);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchFavoriteStatus();
+  }, [product]);
+
   if (!products) {
     return <p className="text-center my-16">Loading product details...</p>;
   }
-
-  const product = products.find(
-    (item) => item._id === id || item.slug?.current === id
-  );
 
   if (!product) {
     return (
@@ -47,6 +73,39 @@ const ProductDetail = () => {
 
   const handleDecrement = () =>
     setQuantity((prevQuantity) => (prevQuantity > 1 ? prevQuantity - 1 : 1));
+
+
+  const handleFavorite = async () => {
+    if (loadingFavorite) return;
+
+    try {
+      setLoadingFavorite(true);
+
+      const res = await fetch("/api/favorites", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          productId: product._id,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.message);
+        return;
+      }
+
+      setIsFavorite(data.isFavorite);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoadingFavorite(false);
+    }
+  };
+
 
   return (
     <div className="w-full mx-auto py-10 mb-12 px-8 lg:px-16 flex flex-col lg:flex-row gap-10">
@@ -91,7 +150,6 @@ const ProductDetail = () => {
           {product.description.substring(0, 573)}
         </p>
 
-        {/* Tags */}
         <div className="flex flex-col gap-3">
           <p className="text-[#9F9F9F] text-sm">Tags</p>
           <div className="flex flex-wrap gap-2">
@@ -106,7 +164,80 @@ const ProductDetail = () => {
           </div>
         </div>
 
-        {/* Quantity and Cart Actions */}
+        <div className="flex flex-wrap items-center gap-6 pt-2">
+
+
+          <button
+            onClick={handleFavorite}
+            disabled={loadingFavorite}
+            className="relative group flex items-center gap-2 transition"
+          >
+            {isFavorite ? (
+              <FaHeart className="text-xl text-[#B88E2F]" />
+            ) : (
+              <FaRegHeart className="text-xl text-white group-hover/icon:text-[#B88E2F]" />
+            )}
+
+            <span
+              className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2
+    whitespace-nowrap rounded-md bg-gray-900 px-3 py-1 text-xs text-white
+    opacity-0 group-hover:opacity-100 transition pointer-events-none"
+            >
+              {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
+            </span>
+
+            <span className="text-sm">
+              {loadingFavorite
+                ? "Saving..."
+                : isFavorite
+                  ? "Favorited"
+                  : "Favorite"}
+            </span>
+          </button>
+
+          <button className="relative group flex items-center gap-2 text-gray-700 hover:text-[#B88E2F] transition">
+            <IoShareSocialOutline className="text-xl" />
+
+            <span
+              className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2
+      whitespace-nowrap rounded-md bg-gray-900 px-3 py-1 text-xs text-white
+      opacity-0 group-hover:opacity-100 transition pointer-events-none"
+            >
+              Share Product
+            </span>
+
+            <span className="text-sm">Share</span>
+          </button>
+
+          <div
+            className={`relative group flex items-center gap-2 ${product.inventoryInStock > 0
+              ? "text-green-700"
+              : "text-red-600"
+              }`}
+          >
+            <MdOutlineInventory2 className="text-xl" />
+
+            <span className="text-sm">
+              {product.inventoryInStock} Available
+            </span>
+
+            <span
+              className={`absolute bottom-full left-1/2 -translate-x-1/2 mb-2
+      whitespace-nowrap rounded-md px-3 py-1 text-xs text-white
+      opacity-0 group-hover:opacity-100 transition pointer-events-none
+      ${product.inventoryInStock > 0
+                  ? "bg-gray-900"
+                  : "bg-red-600"
+                }`}
+            >
+              {product.inventoryInStock > 0
+                ? `${product.inventoryInStock} items left`
+                : "Out of Stock"}
+            </span>
+          </div>
+
+        </div>
+
         <div className="flex flex-col sm:flex-row gap-4 sm:gap-2 mt-6 items-start sm:items-center text-base">
           <div className="flex items-center gap-6 border border-[#9F9F9F] rounded-md py-2 px-3 hover:bg-[#F9F1E7]">
             <span className="cursor-pointer" onClick={handleDecrement}>
@@ -134,9 +265,7 @@ const ProductDetail = () => {
           >
             Add To Cart
           </button>
-          <div className="py-2 px-5 rounded-lg border border-black hover:bg-[#F9F1E7]">
-            <button>Stock: {product.inventoryInStock}</button>
-          </div>
+
         </div>
       </div>
     </div>
