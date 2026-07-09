@@ -30,12 +30,22 @@ const Header = () => {
   const [openAccountInfo, setOpenAccountInfo] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [openSearch, setOpenSearch] = useState(false);
+  const [favoriteCount, setFavoriteCount] = useState(0);
+  const [orderCount, setOrderCount] = useState(0);
 
   useEffect(() => {
     const fetchUser = async () => {
       const res = await fetch("/api/account-info");
       const data = await res.json();
       setUser(data.user);
+
+      const favRes = await fetch("/api/favorites/count");
+      const favData = await favRes.json();
+      setFavoriteCount(favData.count);
+
+      const orderRes = await fetch("/api/order/count");
+      const orderData = await orderRes.json();
+      setOrderCount(orderData.count);
     };
     fetchUser();
   }, []);
@@ -113,7 +123,7 @@ const Header = () => {
           </Link>
           <Link
             href="/"
-            className="cursor-pointer hover:shadow-[0_1px_0_rgba(0,0,0,0.2)] transition-shadow"
+            className="relative cursor-pointer hover:shadow-[0_1px_0_rgba(0,0,0,0.2)] transition-shadow"
             onClick={(e) => {
               e.preventDefault();
               toggleAccountInfo();
@@ -135,6 +145,12 @@ const Header = () => {
               )
             ) : (
               <TbUserExclamation />
+            )}
+
+            {favoriteCount + orderCount > 0 && (
+              <div className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] rounded-full min-w-[18px] h-[18px] px-1 flex items-center justify-center">
+                {favoriteCount + orderCount}
+              </div>
             )}
           </Link>
         </div>
@@ -185,7 +201,7 @@ const Header = () => {
           </button>
           <Link
             href="/"
-            className="cursor-pointer hover:shadow-[0_1px_0_rgba(0,0,0,0.2)] transition-shadow"
+            className="relative cursor-pointer hover:shadow-[0_1px_0_rgba(0,0,0,0.2)] transition-shadow"
             onClick={(e) => {
               e.preventDefault();
               toggleAccountInfo();
@@ -208,6 +224,12 @@ const Header = () => {
             ) : (
               <TbUserExclamation />
             )}
+
+            {favoriteCount + orderCount > 0 && (
+              <div className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] rounded-full min-w-[18px] h-[18px] px-1 flex items-center justify-center">
+                {favoriteCount + orderCount}
+              </div>
+            )}
           </Link>
         </div>
       </div>
@@ -224,7 +246,10 @@ const Header = () => {
         className={`fixed right-0 top-0 inset-0 w-full h-screen bg-black bg-opacity-20 z-[1000] flex justify-end 
         transition-all ease-in-out duration-300 ${openAccountInfo ? "opacity-100" : "opacity-0 pointer-events-none"}`}
       >
-        <ClientAccountInfo close={() => setOpenAccountInfo(false)} />
+        <ClientAccountInfo
+          close={() => setOpenAccountInfo(false)}
+          favoriteCount={favoriteCount}
+        />
       </div>
     </header>
   );
