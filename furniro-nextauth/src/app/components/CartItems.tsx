@@ -55,7 +55,9 @@ const CartItems = ({ closeCart }: { closeCart: () => void }) => {
                 />
               </div>
               <div className="mx-0 text-center sm:text-start sm:mr-3 w-[150px] sm:w-[120px] sm:break-words line-clamp-2">
-                <p className="text-[15px] font-semibold">{item.name}</p>
+                <p className="text-[15px] font-semibold break-words line-clamp-2">
+                  {item.name}
+                </p>
                 <div>
                   <p className="flex items-center justify-center sm:justify-start gap-2">
                     <span className="text-[15px]">{item.quantity}</span>

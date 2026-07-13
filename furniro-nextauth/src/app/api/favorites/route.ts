@@ -67,6 +67,7 @@ export async function POST(req: Request) {
         favorites: [
           ...favorites,
           {
+            _key: crypto.randomUUID(),
             _type: "reference",
             _ref: productId,
           },
@@ -88,8 +89,25 @@ export async function POST(req: Request) {
   }
 }
 
-export async function GET() {
+export async function GET(req: Request) {
   const session = await auth();
+
+  const { searchParams } = new URL(req.url);
+  const productId = searchParams.get("productId");
+
+  if (productId) {
+    const user = await serverClient.fetch(
+      `*[_type=="user" && email==$email][0]{ favorites }`,
+      { email: session?.user?.email },
+    );
+
+    const isFavorite =
+      user?.favorites?.some(
+        (fav: { _ref: string }) => fav._ref === productId,
+      ) ?? false;
+
+    return NextResponse.json({ isFavorite });
+  }
 
   if (!session?.user?.email) {
     return NextResponse.json([]);
@@ -97,22 +115,40 @@ export async function GET() {
 
   const favorites = await serverClient.fetch(
     `*[_type=="user" && email==$email][0]{
-      favorites[]->{
-        _id,
-        title,
-        price,
-        slug,
-        featured,
-        dicountPercentage,
-        isNew,
-        inventoryInStock,
-        "image": productImage.asset->url
-      }
-    }.favorites`,
+    favorites[]->{
+      _id,
+      title,
+      price,
+      slug,
+      featured,
+      dicountPercentage,
+      isNew,
+      inventoryInStock,
+      "image": productImage.asset->url
+    }
+  }.favorites`,
     {
       email: session.user.email,
     },
   );
 
-  return NextResponse.json(favorites || []);
+  const formatted =
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    favorites?.map((product: any) => ({
+      ...product,
+      dicountPercentage: product.dicountPercentage
+        ? {
+            text: `-${product.dicountPercentage}%`,
+            color: "#E97171",
+          }
+        : undefined,
+      oldPrice: product.dicountPercentage
+        ? (
+            parseFloat(product.price) *
+            (1 + parseFloat(product.dicountPercentage) / 100)
+          ).toFixed(2)
+        : undefined,
+    })) || [];
+
+  return NextResponse.json(formatted);
 }

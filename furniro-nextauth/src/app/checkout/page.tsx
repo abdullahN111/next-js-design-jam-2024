@@ -18,14 +18,19 @@ const Page = () => {
   const [selectedOption, setSelectedOption] = useState("Cash On Delivery");
   const [clientSecret, setClientSecret] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
-  const { cartItems, clearCart } = useCart();
+  const { cartItems, selectedItems, removeSelectedItems } = useCart();
   const router = useRouter();
 
-  const cartTotal = cartItems.reduce((total, item) => {
+  const selectedCartItems = cartItems.filter((item) =>
+    selectedItems.includes(item.id),
+  );
+
+  const cartTotal = selectedCartItems.reduce((total, item) => {
     const price =
       typeof item.price === "string"
         ? parseFloat(item.price.replace(/[^0-9.]+/g, ""))
         : item.price;
+
     return total + (isNaN(price) ? 0 : price * item.quantity);
   }, 0);
 
@@ -51,14 +56,14 @@ const Page = () => {
     const orderDetails = {
       orderId,
       user: { ...formData },
-      items: cartItems.map((item) => ({
+      items: selectedCartItems.map((item) => ({
         productId: item.id,
         price: Number(item.price),
         quantity: item.quantity,
       })),
-      total: cartItems.reduce(
+      total: selectedCartItems.reduce(
         (acc, item) => acc + parseFloat(String(item.price)) * item.quantity,
-        0
+        0,
       ),
       paymentMethod: selectedOption,
     };
@@ -75,7 +80,7 @@ const Page = () => {
       if (response.ok) {
         localStorage.setItem("lastOrderId", orderId);
 
-        clearCart();
+        removeSelectedItems(selectedItems);
         router.push("/track-order");
       } else {
         console.error("Order submission failed:", result.message);
@@ -104,6 +109,7 @@ const Page = () => {
               amount={cartTotal}
               clientSecret={clientSecret}
               isProcessing={isProcessing}
+              items={selectedCartItems}
             />
           </Elements>
         ) : (
@@ -112,6 +118,7 @@ const Page = () => {
             setSelectedOption={setSelectedOption}
             amount={cartTotal}
             isProcessing={isProcessing}
+            items={selectedCartItems}
           />
         )}
       </div>

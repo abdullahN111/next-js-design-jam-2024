@@ -14,10 +14,13 @@ export type CartItem = {
 
 type CartContextType = {
   cartItems: CartItem[];
+  selectedItems: string[];
   addToCart: (item: CartItem) => void;
   removeFromCart: (id: string) => void;
   updateQuantity: (id: string, quantity: number) => void;
   clearCart: () => void;
+  setSelectedItems: React.Dispatch<React.SetStateAction<string[]>>;
+  removeSelectedItems: (ids: string[]) => void;
 };
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -30,8 +33,11 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isMounted, setIsMounted] = useState(false);
+  const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
   const getKey = () => (userEmail ? `cart-${userEmail}` : "cart-guest");
+  const getSelectedKey = () =>
+    userEmail ? `selected-${userEmail}` : "selected-guest";
 
   const loadCart = () => {
     if (typeof window === "undefined") return;
@@ -50,6 +56,8 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
     } else {
       setCartItems(guestItems);
     }
+    const storedSelected = localStorage.getItem(getSelectedKey());
+    setSelectedItems(storedSelected ? JSON.parse(storedSelected) : []);
   };
 
   const saveCart = (items: CartItem[]) => {
@@ -85,27 +93,46 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
     saveCart(cartItems);
   }, [cartItems]);
 
-  const addToCart = (item: CartItem) => {
-    setCartItems((prev) => {
-      const existing = prev.find((i) => i.id === item.id);
-      if (existing) {
-        return prev.map((i) =>
-          i.id === item.id ? { ...i, quantity: i.quantity + item.quantity } : i
-        );
-      }
-      return [...prev, item];
-    });
-  };
+  useEffect(() => {
+    setSelectedItems((prev) =>
+      prev.filter((id) => cartItems.some((item) => item.id === id)),
+    );
+  }, [cartItems]);
 
+  useEffect(() => {
+    if (!isMounted) return;
+    localStorage.setItem(getSelectedKey(), JSON.stringify(selectedItems));
+  }, [selectedItems, isMounted, userEmail]);
+
+  const addToCart = (item: CartItem) => {
+    const exists = cartItems.some((i) => i.id === item.id);
+
+    setCartItems((prev) =>
+      exists
+        ? prev.map((i) =>
+            i.id === item.id
+              ? { ...i, quantity: i.quantity + item.quantity }
+              : i,
+          )
+        : [...prev, item],
+    );
+
+    if (!exists) {
+      setSelectedItems((prev) => [...prev, item.id]);
+    }
+  };
   const removeFromCart = (id: string) => {
     setCartItems((prev) => prev.filter((i) => i.id !== id));
+  };
+  const removeSelectedItems = (ids: string[]) => {
+    setCartItems((prev) => prev.filter((item) => !ids.includes(item.id)));
   };
 
   const updateQuantity = (id: string, quantity: number) => {
     setCartItems((prev) =>
       prev.map((i) =>
-        i.id === id ? { ...i, quantity: Math.max(1, quantity) } : i
-      )
+        i.id === id ? { ...i, quantity: Math.max(1, quantity) } : i,
+      ),
     );
   };
 
@@ -122,6 +149,9 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
     <CartContext.Provider
       value={{
         cartItems,
+        removeSelectedItems,
+        selectedItems,
+        setSelectedItems,
         addToCart,
         removeFromCart,
         updateQuantity,
